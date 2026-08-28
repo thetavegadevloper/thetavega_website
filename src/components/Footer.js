@@ -1,512 +1,816 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const products = [
-    "OperateX MES",
-    "OperateX Traceability",
-    "OperateX Production Monitoring",
-    "OperateX OEE & Analytics",
-    "OperateX Quality Management",
-    "OperateX Andon",
-    "OperateX Maintenance Management",
-    "OperateX Energy Management",
-    "OperateX Building Management System",
-    "OperateX Warehouse Management",
-    "OperateX Yard Management",
-    "OperateX AI & Industrial Analytics",
-    "Industrial Automation",
-    "Machine Building & SPM",
-    "Vision & Inspection Systems",
-    "Testing & Measurement Systems",
-    "OT Connectivity & IIoT",
-  ];
-
-  const industries = [
-    "Automotive OEM",
-    "Automotive Tier 1 & Tier 2",
-    "Electric Vehicles",
-    "Heavy Engineering",
-    "Steel & Metals",
-    "Manufacturing",
-    "Process Industries",
-    "Warehousing & Logistics",
-    "Infrastructure & Utilities",
-    "MSME Manufacturing",
-  ];
+  /* =========================================================
+     OPERATEX
+  ========================================================= */
 
   const operateX = [
-    "Why OperateX",
-    "Platform Overview",
-    "MES Platform",
-    "Modules",
-    "OT Connectivity",
-    "IT / ERP Integration",
-    "AI Layer",
-    "Architecture",
-    "Cybersecurity",
-    "Deployment Options",
-    "OperateX Lite for MSMEs",
-    "Request a Demo",
+    {
+      label: "Platform",
+      path: "/product#platform",
+    },
+    {
+      label: "OperateX Modules",
+      path: "/product#operatex-modules",
+    },
+    {
+      label: "OperateX Traceability",
+      path: "/product#traceability",
+    },
+    {
+      label: "OperateX MES",
+      path: "/product#mes",
+    },
+    {
+      label: "OperateX Utility ",
+      path: "/product#utility-management",
+    },
+    {
+      label: "Proprietary Hardware / Edge Systems",
+      path: "/product#ot-connectivity",
+    },
+    
+    {
+      label: "Vision Systems / AI Modules",
+      path: "/product#ai-analytics",
+    },
+    {
+      label: "Request a Demo",
+      path: "/product#request-demo",
+    },
   ];
 
-  const resources = [
-    "Case Studies",
-    "Success Stories",
-    "Brochures",
-    "Downloads",
-    "Knowledge Centre",
-    "Industry 4.0 Insights",
-    "Blogs",
-    "FAQs",
+  /* =========================================================
+     SOLUTIONS
+  ========================================================= */
+
+  const solutions = [
+    {
+      label: "Factory Automation",
+      path: "/solutions#factory-automation",
+    },
+    {
+      label: "MES & Digital Manufacturing",
+      path: "/solutions#mes",
+    },
+    {
+      label: "Machine Building & SPM",
+      path: "/solutions#machine-building",
+    },
+    {
+      label: "Vision Inspection",
+      path: "/solutions#vision-inspection",
+    },
+    {
+      label: "Traceability & Quality Systems",
+      path: "/solutions#traceability",
+    },
+    {
+      label: "Utility & Smart Infrastructure",
+      path: "/solutions#smart-infrastructure",
+    },
+    {
+      label: "IIoT & Data Integration",
+      path: "/solutions#iot",
+    },
   ];
+
+  /* =========================================================
+     INDUSTRIES
+  ========================================================= */
+
+  const industries = [
+    {
+      label: "Automotive & EV",
+      path: "/industries#automotive-ev",
+    },
+    {
+      label: "Auto Ancillaries",
+      path: "/industries#auto-ancillaries",
+    },
+    {
+      label: "Consumer Durables",
+      path: "/industries#consumer-durables",
+    },
+    {
+      label: "Food & Beverage",
+      path: "/industries#food-beverage",
+    },
+     {
+      label: "Steel & Metals",
+      path: "/industries#metals-mining",
+    },
+    {
+      label: "Pharma & Life Sciences",
+      path: "/industries#pharma-life-sciences",
+    },
+    {
+      label: "Process Industries",
+      path: "/industries#process-industries",
+    },
+  ];
+
+  /* =========================================================
+     COMPANY
+  ========================================================= */
 
   const company = [
-    "About Thetavega",
-    "Our Story",
-    "Leadership",
-    "Technology & Innovation",
-    "Partners",
-    "Customers",
-    "Careers",
-    "News & Events",
-    "Contact Us",
+    {
+      label: "About Us",
+      path: "/about",
+    },
+    {
+      label: "Careers",
+      path: "/careers",
+    },
+    {
+      label: "Insights",
+      path: "/blogs#insights",
+    },
+    {
+      label: "Blogs",
+      path: "/blogs#blogs",
+    },
+    {
+      label: "Contact/Customer Support",
+      path: "/contact",
+    },
   ];
 
-  const support = [
-    "Customer Support",
-    "Technical Support",
-    "Service Request",
-    "Remote Support",
-    "Training",
-    "Documentation",
+  /* =========================================================
+     RESOURCES
+  ========================================================= */
+
+  const resources = [
+    {
+      label: "Case Studies",
+      path: "/case-studies",
+    },
+    {
+      label: "Success Stories",
+      path: "/case-studies",
+    },
+    {
+      label: "Brochure",
+      href: "/brochure/ThetaVega%20Profile.pdf",
+      download: true,
+    },
+    {
+      label: "Knowledge Center",
+      path: "/resources",
+    },
+   
   ];
 
-  const connect = [
-    "Contact Sales",
-    "Request a Demo",
-    "Become a Partner",
-    "Partner With Thetavega",
-    "Careers",
-    "LinkedIn",
-    "YouTube",
-  ];
+  /* =========================================================
+     FOOTER SECTIONS
+  ========================================================= */
 
-  const legal = [
-    "Privacy Policy",
-    "Terms of Use",
-    "Cookie Policy",
-    "Information Security",
-    "Responsible Disclosure",
-    "Intellectual Property Notice",
-    "Disclaimer",
-    "Sitemap",
+  const sections = [
+    {
+      title: "OperateX",
+      items: operateX,
+    },
+    {
+      title: "Solutions",
+      items: solutions,
+    },
+    {
+      title: "Industries",
+      items: industries,
+    },
+    {
+      title: "Company",
+      items: company,
+    },
+    {
+      title: "Resources",
+      items: resources,
+    },
   ];
-
-  const FooterLinks = ({ items }) => (
-    <ul className="tv-footer-links">
-      {items.map((item) => (
-        <li key={item}>
-          <a href="/">{item}</a>
-        </li>
-      ))}
-    </ul>
-  );
 
   return (
     <>
       <footer className="tv-footer">
-        <div className="container-fluid tv-footer-container">
+        <div className="tv-footer-container">
+          {/* =================================================
+              FOOTER COLUMNS
+          ================================================= */}
 
-          {/* MAIN FOOTER CONTENT */}
           <div className="tv-footer-grid">
+            {sections.map((section) => (
+              <div
+                className="tv-footer-column"
+                key={section.title}
+              >
+                <h4 className="tv-footer-title">
+                  {section.title}
+                </h4>
 
-            {/* PRODUCTS */}
-            <div className="tv-footer-section tv-products-section">
-              <h5 className="tv-footer-title">
-                Products &amp; Solutions
-              </h5>
+                <div className="tv-footer-line" />
 
-              <div className="tv-product-columns">
-                <FooterLinks items={products} />
+                <ul className="tv-footer-links">
+                  {section.items.map((item, index) => (
+                    <li key={`${section.title}-${index}`}>
+                      {item.download ? (
+                        <a
+                          href={item.href}
+                          download="ThetaVega Profile.pdf"
+                          className="tv-footer-link"
+                        >
+                          {item.label}
+                        </a>
+                      ) : (
+                        <Link
+                          to={item.path}
+                          className="tv-footer-link"
+                        >
+                          {item.label}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-
-            {/* INDUSTRIES */}
-            <div className="tv-footer-section">
-              <h5 className="tv-footer-title">Industries</h5>
-              <FooterLinks items={industries} />
-            </div>
-
-            {/* OPERATEX */}
-            <div className="tv-footer-section">
-              <h5 className="tv-footer-title">OperateX</h5>
-              <FooterLinks items={operateX} />
-            </div>
-
-            {/* RESOURCES */}
-            <div className="tv-footer-section">
-              <h5 className="tv-footer-title">Resources</h5>
-              <FooterLinks items={resources} />
-            </div>
-
-            {/* COMPANY */}
-            <div className="tv-footer-section">
-              <h5 className="tv-footer-title">Company</h5>
-              <FooterLinks items={company} />
-            </div>
-
-            {/* SUPPORT */}
-            <div className="tv-footer-section">
-              <h5 className="tv-footer-title">Support</h5>
-              <FooterLinks items={support} />
-
-              <h5 className="tv-footer-title tv-second-title">
-                Connect
-              </h5>
-
-              <FooterLinks items={connect} />
-            </div>
-
-            {/* LEGAL */}
-            <div className="tv-footer-section">
-              <h5 className="tv-footer-title">Legal</h5>
-              <FooterLinks items={legal} />
-            </div>
-
+            ))}
           </div>
 
-          {/* BOTTOM FOOTER */}
+          {/* =================================================
+              BOTTOM
+          ================================================= */}
+
           <div className="tv-footer-bottom">
-            <div className="tv-footer-bottom-left">
-              <p>
-                © 2026 Thetavega Tech Private Limited. All Rights Reserved.
-              </p>
+            <div className="tv-footer-bottom-second-line">
+              <span>
+                © 2026 Thetavega Tech Private Limited. All rights reserved.
+              </span>
 
-              <p className="tv-operatex-line">
-                OperateX® | Industrial Intelligence. Connected Manufacturing.
-              </p>
-            </div>
+              <span className="tv-footer-separator">|</span>
 
-            <div className="tv-footer-bottom-center">
-              <a href="/">Privacy Policy</a>
-              <span>·</span>
-              <a href="/">Terms of Use</a>
-              <span>·</span>
-              <a href="/">Cookie Policy</a>
-              <span>·</span>
-              <a href="/">Sitemap</a>
-            </div>
+              <Link
+                to="/privacy-policy"
+                className="tv-footer-bottom-link"
+              >
+                Privacy Policy
+              </Link>
 
-            <div className="tv-footer-bottom-right">
-              <p>Thetavega Tech Private Limited</p>
-              <p>Chhatrapati Sambhajinagar, Maharashtra, India</p>
+              <span className="tv-footer-bottom-dot">·</span>
+
+              <Link
+                to="/terms"
+                className="tv-footer-bottom-link"
+              >
+                Terms
+              </Link>
             </div>
           </div>
-
         </div>
       </footer>
 
-      <style>{`
+      <style>
+        {`
+/* =========================================================
+   FOOTER
+========================================================= */
 
-        /* =====================================================
-           FOOTER
-        ===================================================== */
+.tv-footer {
+  width: 100%;
+  background: #07111d;
+  color: #ffffff;
+  padding: 54px 0 0;
+  box-sizing: border-box;
+}
 
-        .tv-footer {
-          background: #07111d;
-          color: #ffffff;
-          padding: 35px 0 0;
-          width: 100%;
-        }
 
-        .tv-footer-container {
-          padding-left: 5%;
-          padding-right: 5%;
-        }
+/* =========================================================
+   CONTAINER
+========================================================= */
 
+.tv-footer-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
 
-        /* =====================================================
-           MAIN GRID
-        ===================================================== */
+  padding-left: 45px;
+  padding-right: 45px;
 
-        .tv-footer-grid {
-          display: grid;
+  box-sizing: border-box;
+}
 
-          grid-template-columns:
-            minmax(270px, 1.8fr)
-            repeat(6, minmax(135px, 1fr));
 
-          gap: 28px;
+/* =========================================================
+   DESKTOP - FIVE COLUMNS
+========================================================= */
 
-          align-items: start;
-        }
+.tv-footer-grid {
+  display: grid;
 
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
 
-        /* =====================================================
-           SECTION
-        ===================================================== */
+  column-gap: 55px;
 
-        .tv-footer-section {
-          min-width: 0;
-        }
+  align-items: start;
+}
 
 
-        /* =====================================================
-           TITLES
-        ===================================================== */
+/* =========================================================
+   COLUMN
+========================================================= */
 
-        .tv-footer-title {
-          color: #f27c2d;
-          font-size: 14px;
-          font-weight: 700;
+.tv-footer-column {
+  min-width: 0;
+}
 
-          margin: 0 0 11px;
 
-          letter-spacing: 0.5px;
-          line-height: 1.3;
-        }
+/* =========================================================
+   TITLE
+========================================================= */
 
-        .tv-second-title {
-          margin-top: 20px;
-        }
+.tv-footer-title {
+  margin: 0;
 
+  color: #ffffff;
 
-        /* =====================================================
-           LINKS
-        ===================================================== */
+  font-size: 14px;
 
-        .tv-footer-links {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
+  font-weight: 700;
 
-        .tv-footer-links li {
-          margin: 0 0 6px;
-          line-height: 1.35;
-        }
+  line-height: 1.3;
 
-        .tv-footer-links a {
-          color: rgba(255, 255, 255, 0.76);
+  text-transform: none;
 
-          text-decoration: none;
+  letter-spacing: 0;
+}
 
-          font-size: 12.5px;
-          font-weight: 400;
 
-          transition:
-            color 0.2s ease,
-            padding-left 0.2s ease;
-        }
+/* REMOVE GLOBAL HEADING DECORATION */
 
-        .tv-footer-links a:hover {
-          color: #f27c2d;
-          padding-left: 2px;
-        }
+.tv-footer-title::before,
+.tv-footer-title::after {
+  content: none !important;
+  display: none !important;
+}
 
 
-        /* =====================================================
-           PRODUCTS
-        ===================================================== */
+/* =========================================================
+   ORANGE LINE
+========================================================= */
 
-        .tv-product-columns .tv-footer-links {
-          columns: 2;
-          column-gap: 24px;
-        }
+.tv-footer-line {
+  width: 36px;
 
-        .tv-product-columns .tv-footer-links li {
-          break-inside: avoid;
-          page-break-inside: avoid;
-        }
+  height: 2px;
 
+  margin-top: 8px;
 
-        /* =====================================================
-           BOTTOM BAR
-        ===================================================== */
+  margin-bottom: 17px;
 
-        .tv-footer-bottom {
-          margin-top: 30px;
+  background: #d9953b;
 
-          padding: 17px 0;
+  border-radius: 2px;
+}
 
-          border-top: 1px solid rgba(255, 255, 255, 0.12);
 
-          display: grid;
+/* =========================================================
+   LINKS
+========================================================= */
 
-          grid-template-columns:
-            1.25fr
-            1fr
-            1.05fr;
+.tv-footer-links {
+  margin: 0;
 
-          gap: 20px;
+  padding: 0;
 
-          align-items: center;
+  list-style: none;
+}
 
-          font-size: 11.5px;
 
-          color: rgba(255, 255, 255, 0.65);
-        }
+.tv-footer-links li {
+  margin: 0 0 9px;
 
-        .tv-footer-bottom p {
-          margin: 0;
-          line-height: 1.6;
-        }
+  padding: 0;
+}
 
-        .tv-operatex-line {
-          color: rgba(255, 255, 255, 0.82);
-        }
 
+.tv-footer-link {
+  display: inline-block;
 
-        /* =====================================================
-           BOTTOM LINKS
-        ===================================================== */
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
 
-        .tv-footer-bottom-center {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 7px;
-        }
+  text-decoration: none;
 
-        .tv-footer-bottom-center a {
-          color: rgba(255, 255, 255, 0.65);
-          text-decoration: none;
-          transition: color 0.2s ease;
-        }
+  font-size: 12.5px;
 
-        .tv-footer-bottom-center a:hover {
-          color: #f27c2d;
-        }
+  font-weight: 400;
 
+  line-height: 1.4;
 
-        /* =====================================================
-           COMPANY LOCATION
-        ===================================================== */
+  cursor: pointer;
 
-        .tv-footer-bottom-right {
-          text-align: right;
-        }
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
 
 
-        /* =====================================================
-           LARGE TABLETS / SMALL LAPTOPS
-        ===================================================== */
+.tv-footer-link:hover {
+  color: #d9953b;
 
-        @media (max-width: 1350px) {
+  transform:
+    translateX(2px);
+}
 
-          .tv-footer-grid {
-            grid-template-columns:
-              minmax(250px, 1.6fr)
-              repeat(3, 1fr);
 
-            gap: 28px 35px;
-          }
+/* =========================================================
+   BOTTOM COPYRIGHT
+========================================================= */
 
-          .tv-products-section {
-            grid-row: span 2;
-          }
+.tv-footer-bottom {
+  margin-top: 42px;
 
-        }
+  padding:
+    17px 0 18px;
 
+  border-top:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.13
+    );
 
-        /* =====================================================
-           TABLET
-        ===================================================== */
+  text-align: center;
 
-        @media (max-width: 991px) {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.62
+    );
 
-          .tv-footer {
-            padding-top: 30px;
-          }
+  font-size: 11px;
 
-          .tv-footer-container {
-            padding-left: 30px;
-            padding-right: 30px;
-          }
+  font-weight: 400;
 
-          .tv-footer-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-          }
+  line-height: 1.6;
+}
 
-          .tv-products-section {
-            grid-column: span 2;
-            grid-row: auto;
-          }
 
-          .tv-footer-bottom {
-            grid-template-columns: 1fr;
-            text-align: center;
-          }
+/* =========================================================
+   COPYRIGHT + PRIVACY + TERMS
+========================================================= */
 
-          .tv-footer-bottom-center {
-            justify-content: center;
-          }
+.tv-footer-bottom-second-line {
+  display: flex;
 
-          .tv-footer-bottom-right {
-            text-align: center;
-          }
+  align-items: center;
 
-        }
+  justify-content: center;
 
+  flex-wrap: wrap;
 
-        /* =====================================================
-           MOBILE
-        ===================================================== */
+  gap: 7px;
+}
 
-        @media (max-width: 767px) {
 
-          .tv-footer-container {
-            padding-left: 22px;
-            padding-right: 22px;
-          }
+.tv-footer-bottom-link {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.68
+    );
 
-          .tv-footer-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 28px;
-          }
+  text-decoration: none;
 
-          .tv-products-section {
-            grid-column: span 2;
-          }
+  transition:
+    color 0.2s ease;
+}
 
-          .tv-product-columns .tv-footer-links {
-            columns: 2;
-          }
 
-        }
+.tv-footer-bottom-link:hover {
+  color: #d9953b;
+}
 
 
-        /* =====================================================
-           SMALL MOBILE
-        ===================================================== */
+.tv-footer-separator {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.3
+    );
+}
 
-        @media (max-width: 480px) {
 
-          .tv-footer-grid {
-            grid-template-columns: 1fr;
-          }
+.tv-footer-bottom-dot {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.3
+    );
+}
 
-          .tv-products-section {
-            grid-column: auto;
-          }
 
-          .tv-product-columns .tv-footer-links {
-            columns: 1;
-          }
+/* =========================================================
+   LAPTOP
+========================================================= */
 
-          .tv-footer-title {
-            font-size: 15px;
-          }
+@media (max-width: 1200px) {
 
-          .tv-footer-links a {
-            font-size: 13px;
-          }
+  .tv-footer-container {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
 
-        }
 
-      `}</style>
+  .tv-footer-grid {
+    column-gap: 35px;
+  }
+
+
+  .tv-footer-title {
+    font-size: 13px;
+  }
+
+
+  .tv-footer-link {
+    font-size: 11px;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+   3 COLUMNS
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .tv-footer-container {
+    padding-left: 24px;
+    padding-right: 24px;
+
+    overflow: visible;
+  }
+
+
+  .tv-footer-grid {
+    width: 100%;
+
+    min-width: 0;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    column-gap: 32px;
+
+    row-gap: 36px;
+  }
+
+
+  .tv-footer-title {
+    font-size: 13px;
+  }
+
+
+  .tv-footer-link {
+    font-size: 11px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   3 COLUMNS × 2 ROWS
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .tv-footer {
+    padding-top: 32px;
+  }
+
+
+  .tv-footer-container {
+    width: 100%;
+
+    padding-left: 15px;
+    padding-right: 15px;
+
+    overflow-x: hidden;
+  }
+
+
+  /* =============================================
+     THREE COLUMNS
+  ============================================= */
+
+  .tv-footer-grid {
+    width: 100%;
+
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    column-gap: 12px;
+
+    row-gap: 30px;
+
+    align-items: start;
+  }
+
+
+  .tv-footer-column {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+
+  /* =============================================
+     TITLE
+  ============================================= */
+
+  .tv-footer-title {
+    margin: 0;
+
+    font-size: 11.5px;
+
+    line-height: 1.3;
+
+    font-weight: 700;
+  }
+
+
+  /* =============================================
+     ORANGE LINE
+  ============================================= */
+
+  .tv-footer-line {
+    width: 27px;
+
+    height: 2px;
+
+    margin-top: 6px;
+
+    margin-bottom: 12px;
+  }
+
+
+  /* =============================================
+     LINKS
+  ============================================= */
+
+  .tv-footer-links {
+    margin: 0;
+
+    padding: 0;
+
+    width: 100%;
+  }
+
+
+  .tv-footer-links li {
+    margin: 0 0 7px;
+
+    padding: 0;
+  }
+
+
+  .tv-footer-link {
+    display: block;
+
+    width: 100%;
+
+    font-size: 9.5px;
+
+    line-height: 1.45;
+
+    white-space: normal;
+
+    word-break: normal;
+
+    overflow-wrap: break-word;
+  }
+
+
+  /* =============================================
+     REMOVE HOVER MOVEMENT ON MOBILE
+  ============================================= */
+
+  .tv-footer-link:hover {
+    transform: none;
+  }
+
+
+  /* =============================================
+     BOTTOM COPYRIGHT
+  ============================================= */
+
+  .tv-footer-bottom {
+    width: 100%;
+
+    min-width: 0;
+
+    margin-top: 30px;
+
+    padding: 15px 0 16px;
+
+    font-size: 9px;
+
+    line-height: 1.6;
+  }
+
+
+  .tv-footer-bottom-second-line {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 5px 7px;
+
+    text-align: center;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .tv-footer-container {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+
+
+  .tv-footer-grid {
+    column-gap: 9px;
+
+    row-gap: 26px;
+  }
+
+
+  .tv-footer-title {
+    font-size: 10.5px;
+  }
+
+
+  .tv-footer-line {
+    width: 24px;
+
+    margin-bottom: 10px;
+  }
+
+
+  .tv-footer-link {
+    font-size: 8.8px;
+
+    line-height: 1.4;
+  }
+
+
+  .tv-footer-bottom {
+    font-size: 8.5px;
+  }
+}
+        `}
+      </style>
     </>
   );
 };

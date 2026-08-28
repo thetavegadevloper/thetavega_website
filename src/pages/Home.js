@@ -474,6 +474,120 @@ useEffect(() => {
             box-shadow: 0 18px 36px rgba(12, 18, 24, 0.1) !important;
           }
 
+          /* =========================================
+   CASE STUDIES HEADING ROW
+========================================= */
+
+.case-studies-heading-row {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-bottom: 55px;
+}
+
+.case-studies-main-heading {
+  margin: 0;
+
+  color: #07111d;
+
+  font-size: 46px;
+  font-weight: 700;
+
+  line-height: 1.15;
+}
+
+
+/* VIEW ALL CASE STUDIES */
+
+.view-all-case-studies {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  flex-shrink: 0;
+
+  color: #f27c2d;
+
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  transition:
+    gap 0.25s ease,
+    color 0.25s ease;
+}
+
+.view-all-case-studies:hover {
+  color: #d96518;
+  gap: 15px;
+}
+
+
+/* ARROW */
+
+.view-all-arrow {
+  display: inline-block;
+
+  font-size: 22px;
+  line-height: 1;
+
+  transition: transform 0.25s ease;
+}
+
+.view-all-case-studies:hover .view-all-arrow {
+  transform: translateX(4px);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+
+  .case-studies-heading-row {
+    align-items: flex-end;
+
+    gap: 15px;
+
+    margin-bottom: 35px;
+  }
+
+  .case-studies-main-heading {
+    font-size: 30px;
+  }
+
+  .view-all-case-studies {
+    font-size: 12px;
+
+    gap: 6px;
+  }
+
+  .view-all-arrow {
+    font-size: 17px;
+  }
+}
+
+
+/* VERY SMALL MOBILE */
+
+@media (max-width: 500px) {
+
+  .case-studies-heading-row {
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 12px;
+  }
+
+}
+
           @media (max-width: 991px) {
             .home-hero-section {
               min-height: 520px !important;
@@ -501,54 +615,158 @@ useEffect(() => {
 }
  /* ================= STATS MOBILE GRID FIX ================= */
 /* ================= FINAL MOBILE FIX ================= */
+/* =========================================================
+   HERO + STATS MOBILE RESPONSIVE
+========================================================= */
+
 @media (max-width: 576px) {
 
-  /* GRID: 2 per row */
-  .stats-section .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
+  /* ================= HERO ================= */
+
+  .home-hero-section {
+    min-height: 520px !important;
   }
 
-  .stats-section .row > div {
-    flex: 0 0 47% !important;
-    max-width: 47% !important;
+  .home-hero-section .row.align-items-center {
+    min-height: 520px !important;
   }
 
-  /* LAST CARD SAME SIZE (NOT BIG) */
-  .stats-section .row > div:last-child {
-    flex: 0 0 47% !important;
-    max-width: 47% !important;
+  .home-hero-content {
+    padding: 50px 8px 30px 8px;
   }
 
-  /* CARD HEIGHT REDUCTION */
-  .stats-feature-card {
-    padding: 14px 12px !important;
-    border-radius: 16px;
+  .home-hero-content h1 {
+    font-size: 2rem !important;
+    line-height: 1.12 !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 16px !important;
   }
 
-  /* ICON SIZE */
-  .stats-feature-card div[style*="width: 58px"] {
-    width: 42px !important;
-    height: 42px !important;
-    margin-bottom: 10px !important;
+  .home-hero-content p {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0.7px !important;
+    margin-bottom: 22px !important;
   }
 
-  /* NUMBER SIZE */
-  .stats-feature-card div[style*="font-size: 1.9rem"] {
-    font-size: 1.3rem !important;
-    margin-bottom: 4px !important;
+  /* Hero top badge */
+  .home-hero-content > div:first-child {
+    font-size: 9px !important;
+    letter-spacing: 1px !important;
+    padding: 7px 10px !important;
+    gap: 7px !important;
+    margin-bottom: 16px !important;
   }
 
-  /* TEXT SIZE */
-  .stats-feature-card p {
-    font-size: 0.8rem !important;
+  /* HERO BUTTON AREA */
+  .home-hero-content .d-flex {
+    gap: 8px !important;
     margin-bottom: 0 !important;
   }
-}@media (max-width: 576px) {
+
+  /* BOTH BUTTONS */
+  .home-hero-content .d-flex a {
+    padding: 9px 15px !important;
+    font-size: 11px !important;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+  }
+
+  /* EXPLORE OPERATEX */
+  .home-hero-section a[href="/product"] {
+    padding: 8px 13px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.7px !important;
+  }
+
+
+  /* ================= STATS ================= */
+
   .stats-section {
-    padding-bottom: 40px !important;
+    padding: 42px 0 45px !important;
+  }
+
+  .stats-section .container {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .stats-section .stats-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    --bs-gutter-x: 0 !important;
+    --bs-gutter-y: 0 !important;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* 3 CARDS PER ROW */
+  .stats-section .stats-row > div {
+    flex: 0 0 calc((100% - 16px) / 3) !important;
+    width: calc((100% - 16px) / 3) !important;
+    max-width: calc((100% - 16px) / 3) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Last two stay same width and center automatically */
+  .stats-section .stats-row > div:nth-child(4),
+  .stats-section .stats-row > div:nth-child(5) {
+    flex: 0 0 calc((100% - 16px) / 3) !important;
+    width: calc((100% - 16px) / 3) !important;
+    max-width: calc((100% - 16px) / 3) !important;
+  }
+
+  /* CARD */
+  .stats-feature-card {
+    padding: 12px 6px !important;
+    min-height: 128px !important;
+    border-radius: 13px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    text-align: center !important;
+  }
+
+  /* ICON CONTAINER */
+  .stats-feature-card > div:nth-child(2) {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 11px !important;
+    margin-bottom: 7px !important;
+  }
+
+  /* LOTTIE ICON */
+  .stats-feature-card > div:nth-child(2) > div,
+  .stats-feature-card > div:nth-child(2) svg {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  /* COUNTER NUMBER */
+  .stats-feature-card > div:nth-child(3) {
+    font-size: 1.15rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 3px !important;
+  }
+
+  /* LABEL */
+  .stats-feature-card p {
+    font-size: 0.68rem !important;
+    line-height: 1.25 !important;
+    margin: 0 !important;
+    word-break: normal;
   }
 }
 @media (max-width: 768px) {
@@ -677,6 +895,124 @@ useEffect(() => {
 @media (max-width:768px){
   .standard-card:active{
     transform: scale(0.98);
+  }
+}
+  /* =========================================================
+   STEP 2 - WHAT WE DO + INDUSTRIES MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+
+  /* =====================================================
+     WHAT WE DO
+  ===================================================== */
+
+  .what-we-do-section {
+    padding: 38px 0 32px !important;
+  }
+
+  .what-we-do-section .row.mb-3 {
+    margin-bottom: 8px !important;
+  }
+
+  .what-we-do-section .section-eyebrow {
+    font-size: 13px !important;
+    letter-spacing: 1.3px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .what-we-do-section .section-description {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    padding: 0 8px !important;
+  }
+
+  .what-we-do-section .row.g-2 {
+    --bs-gutter-x: 8px !important;
+    --bs-gutter-y: 8px !important;
+  }
+
+  .what-we-do-card {
+    min-height: 165px !important;
+    padding: 14px 8px !important;
+    border-radius: 16px !important;
+  }
+
+  .what-we-do-icon {
+    width: 70px !important;
+    height: 70px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .what-we-do-card h4 {
+    font-size: 0.9rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 7px !important;
+  }
+
+  .what-we-do-card a {
+    font-size: 0.75rem !important;
+  }
+
+
+  /* =====================================================
+     INDUSTRIES WE SERVE
+  ===================================================== */
+
+  .industries-section {
+    padding: 38px 0 35px !important;
+  }
+
+  .industries-section .row.mb-5 {
+    margin-bottom: 20px !important;
+  }
+
+  .industries-section .industries-eyebrow {
+    font-size: 13px !important;
+    letter-spacing: 1.3px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .industries-section .industries-heading {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 5px !important;
+    padding: 0 6px !important;
+  }
+
+  .industries-section .industries-subtext {
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    padding: 0 8px !important;
+  }
+
+  .industries-section .row.g-3 {
+    --bs-gutter-x: 8px !important;
+    --bs-gutter-y: 8px !important;
+  }
+
+  .industry-mobile-card {
+    min-height: 68px !important;
+    padding: 8px 12px !important;
+    border-radius: 14px !important;
+    gap: 8px !important;
+  }
+
+  .industry-card-text {
+    font-size: 0.78rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .industry-icon-wrap {
+    min-width: 52px !important;
+    width: 52px !important;
+    height: 52px !important;
+  }
+
+  .industry-icon-wrap > div,
+  .industry-icon-wrap svg {
+    width: 48px !important;
+    height: 48px !important;
   }
 }
   
@@ -869,30 +1205,72 @@ useEffect(() => {
         Talk to Us
       </Link>
 
-      <Link
-        to="/product"
-        style={{
-          padding: "14px 28px",
-          borderRadius: "999px",
-          border: "1px solid rgba(255,255,255,0.75)",
-          color: "#ffffff",
-          fontWeight: 700,
-          letterSpacing: "2px",
-          textDecoration: "none",
-          textShadow: "0 2px 8px rgba(0,0,0,0.9)",
-          boxShadow: "0 12px 30px rgba(0,0,0,0.35)",
-          transition: "all 0.3s ease",
-        }}
-      >
-        Explore OperateX
+    <Link
+  to="/product"
+  style={{
+    padding: "12px 24px",
+    borderRadius: "999px",
+    background: "#ffffff",
+    border: "1px solid rgba(255,255,255,0.85)",
+    color: "#07111D",
 
+    fontSize: "16px",        // SAME FONT SIZE FOR EVERYTHING
+    fontWeight: 700,
+    fontFamily: "Montserrat, sans-serif",
+    lineHeight: "1",
 
+    textDecoration: "none",
+    boxShadow: "0 10px 28px rgba(0,0,0,0.30)",
+    transition: "all 0.3s ease",
 
-         {/*Explore{" "}
-  <span style={{ color: "#800000" }}>O</span>
-  perate
-  <span style={{ color: "#800000" }}>X</span>  */}
-      </Link>
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "0",
+    whiteSpace: "nowrap",
+  }}
+>
+  <span
+    style={{
+      fontSize: "16px",
+      fontWeight: 700,
+      marginRight: "5px",
+    }}
+  >
+    Explore
+  </span>
+
+  {/* OperateX */}
+  <span
+    style={{
+      color: "#f5222d",
+      fontSize: "16px",
+      fontWeight: 800,
+    }}
+  >
+    O
+  </span>
+
+  <span
+    style={{
+      color: "#07111D",
+      fontSize: "16px",
+      fontWeight: 700,
+    }}
+  >
+    perate
+  </span>
+
+  <span
+    style={{
+      color: "#f5222d",
+      fontSize: "16px",
+      fontWeight: 800,
+    }}
+  >
+    X
+  </span>
+</Link>
     </div>
   </div>
 </div>
@@ -1397,38 +1775,87 @@ useEffect(() => {
             ))}
           </div>
 
-        <a
+<a
   href="/product"
   style={{
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: "10px",
-    padding: "13px 24px",
+    gap: "8px",
+
+    padding: "11px 22px",
     borderRadius: "999px",
-    background: "linear-gradient(135deg, #f27c2d 0%, #DB9941 100%)",
-    color: "#ffffff",
+
+    background: "#ffffff",
+    color: "#07111D",
     textDecoration: "none",
-    fontWeight: 600,
-    fontSize: "0.95rem",
-    letterSpacing: "0.7px",
-    boxShadow: "0 14px 30px rgba(219,153,65,0.28)",
-    border: "1px solid rgba(255,255,255,0.28)",
+
+    fontFamily: "'Montserrat', sans-serif",
+    fontWeight: 700,
+    fontSize: "16px",
+
+    boxShadow: "0 14px 30px rgba(0,0,0,0.25)",
+    border: "1px solid rgba(255,255,255,0.85)",
+
     transition: "all 0.35s ease",
+    whiteSpace: "nowrap",
   }}
 >
-  Explore OperateX
   <span
     style={{
-      width: "24px",
-      height: "24px",
-      borderRadius: "50%",
-      background: "rgba(255,255,255,0.22)",
+      fontSize: "16px",
+      fontWeight: 700,
+    }}
+  >
+    Explore
+  </span>
+
+  <span
+    style={{
       display: "inline-flex",
       alignItems: "center",
-      justifyContent: "center",
-      fontSize: "15px",
       lineHeight: 1,
+    }}
+  >
+    <span
+      style={{
+        color: "#e73a3a",
+        fontSize: "16px",
+        fontWeight: 800,
+      }}
+    >
+      O
+    </span>
+
+    <span
+      style={{
+        color: "#07111D",
+        fontSize: "16px",
+        fontWeight: 700,
+      }}
+    >
+      perate
+    </span>
+
+    <span
+      style={{
+        color: "#ef3939",
+        fontSize: "16px",
+        fontWeight: 800,
+      }}
+    >
+      X
+    </span>
+  </span>
+
+  <span
+    style={{
+      color: "#000000",
+      fontSize: "18px",
+      fontWeight: 700,
+      lineHeight: 1,
+      display: "inline-flex",
+      alignItems: "center",
     }}
   >
     →
@@ -1508,212 +1935,334 @@ useEffect(() => {
 {/* ================= INDUSTRIES WE SERVE ================= */}
 
 <section
-      ref={industrySectionRef}
-      style={{
-        padding: "90px 0",
-        backgroundColor: "#ffffff",
-        overflow: "hidden",
-      }}
-    >
-      <style>{`
-        @keyframes cardSpread {
-          0% {
-            transform: scaleX(0.22);
-            transform-origin: right center;
-          }
-          100% {
-            transform: scaleX(1);
-            transform-origin: right center;
-          }
-        }
-
-        @keyframes textReveal {
-          0% {
-            opacity: 0;
-            transform: translateX(-14px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        .industry-card-text {
-          opacity: 0;
-        }
-
-        .industry-card-animated {
-          animation: cardSpread 0.75s ease forwards;
-          transform-origin: right center;
-        }
-
-        .industry-card-animated .industry-card-text {
-          animation: textReveal 0.45s ease forwards;
-        }
-
-        .industry-card-1 { animation-delay: 0s; }
-        .industry-card-1 .industry-card-text { animation-delay: 0.65s; }
-
-        .industry-card-2 { animation-delay: 0.12s; }
-        .industry-card-2 .industry-card-text { animation-delay: 0.77s; }
-
-        .industry-card-3 { animation-delay: 0.24s; }
-        .industry-card-3 .industry-card-text { animation-delay: 0.89s; }
-
-        .industry-card-4 { animation-delay: 0.36s; }
-        .industry-card-4 .industry-card-text { animation-delay: 1.01s; }
-
-        .industry-card-5 { animation-delay: 0.48s; }
-        .industry-card-5 .industry-card-text { animation-delay: 1.13s; }
-
-        .industry-card-6 { animation-delay: 0.60s; }
-        .industry-card-6 .industry-card-text { animation-delay: 1.25s; }
-      `}</style>
-
-      <div className="container">
-        <div className="row mb-5 justify-content-center text-center">
-          <div className="col-lg-9">
-            <div
-              style={{
-                display: "inline-block",
-                fontSize: "20px",
-                fontWeight: 700,
-                letterSpacing: "2px",
-                textTransform: "uppercase",
-                color: "#f27c2d",
-                marginBottom: "8px",
-              }}
-            >
-              Industries We Serve
-            </div>
-
-            <p
-              style={{
-                fontSize: "clamp(1.2rem, 2vw, 1.6rem)",
-                lineHeight: 1.8,
-                color: "#07111D",
-                marginBottom: "10px",
-                fontWeight: 700,
-                maxWidth: "950px",
-                marginInline: "auto",
-              }}
-            >
-              Automation and digital manufacturing solutions tailored to industry-specific needs
-            </p>
-
-            <p
-              style={{
-                maxWidth: "760px",
-                margin: "0 auto",
-                fontSize: "1rem",
-                lineHeight: 1.9,
-                color: "#39444D",
-                fontWeight: 500,
-              }}
-            >
-              Designed for production-critical environments across discrete and process manufacturing.
-            </p>
-          </div>
-        </div>
-
-        <div className="row g-3 justify-content-center">
-          {[
-            {
-              title: "Automotive & EV",
-              animation: autoAnim,
-              iconBg: "#fcfcfc",
-              bg: "linear-gradient(180deg, #ffffff 0%, #F5F1EB 100%)",
-            },
-            {
-              title: "Auto Ancillaries",
-              animation: ancillariesAnim,
-              iconBg: "#fcfcfc",
-              bg: "#ffffff",
-            },
-            {
-              title: "Consumer Durables",
-              animation: consumerAnim,
-              iconBg: "#fcfcfc",
-              bg: "linear-gradient(180deg, #ffffff 0%, #F8F5EE 100%)",
-            },
-            {
-              title: "Food & Beverage",
-              animation: foodAnim,
-              iconBg: "#fcfcfc",
-              bg: "#ffffff",
-            },
-            {
-              title: "Pharmaceuticals & Life Sciences",
-              animation: pharmaAnim,
-              iconBg: "#fcfcfc",
-              bg: "linear-gradient(180deg, #ffffff 0%, #F5F1EB 100%)",
-            },
-            {
-              title: "Metals & Process Industries",
-              animation: metalsAnim,
-              iconBg: "#fcfcfc",
-              bg: "#ffffff",
-            },
-          ].map((item, index) => (
-            <div className="col-lg-4 col-md-6" key={index}>
-              <div
-                className={
-                  playIndustryAnimation
-                    ? `industry-card-animated industry-card-${index + 1}`
-                    : ""
-                }
-                style={{
-                  padding: "22px 24px",
-                  borderRadius: "20px",
-                  border: "1px solid rgba(57,68,77,0.10)",
-                  background: item.bg,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "16px",
-                  minHeight: "88px",
-                  transition: "all 0.3s ease",
-                }}
-              >
-                <div
-                  className="industry-card-text"
-                  style={{
-                    fontSize: "1rem",
-                    fontWeight: 700,
-                    color: "#07111D",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {item.title}
-                </div>
-
-                {/* 🔥 Lottie Icon */}
-                <div
+  ref={industrySectionRef}
+  className="industries-section"
   style={{
-    minWidth: "80px",
-    width: "80px",
-    height: "80px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexShrink: 0,
-    position: "relative",
-    zIndex: 2,
+    padding: "90px 0",
+    backgroundColor: "#ffffff",
+    overflow: "hidden",
   }}
 >
-  <Lottie
-    animationData={item.animation}
-    loop
-    autoplay
-    style={{ width: "70px", height: "70px" }}
-  />
-</div>
+  <style>{`
+    @keyframes cardSpread {
+      0% {
+        transform: scaleX(0.22);
+        transform-origin: right center;
+      }
+      100% {
+        transform: scaleX(1);
+        transform-origin: right center;
+      }
+    }
+
+    @keyframes textReveal {
+      0% {
+        opacity: 0;
+        transform: translateX(-14px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .industry-card-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      height: 100%;
+    }
+
+    .industry-card {
+      cursor: pointer;
+    }
+
+    .industry-card-text {
+      opacity: 0;
+    }
+
+    .industry-card-animated {
+      animation: cardSpread 0.75s ease forwards;
+      transform-origin: right center;
+    }
+
+    .industry-card-animated .industry-card-text {
+      animation: textReveal 0.45s ease forwards;
+    }
+
+    /* Important for mobile / when animation is not active */
+    .industry-mobile-card .industry-card-text {
+      opacity: 1;
+    }
+
+    .industry-card-1 {
+      animation-delay: 0s;
+    }
+
+    .industry-card-1 .industry-card-text {
+      animation-delay: 0.65s;
+    }
+
+    .industry-card-2 {
+      animation-delay: 0.12s;
+    }
+
+    .industry-card-2 .industry-card-text {
+      animation-delay: 0.77s;
+    }
+
+    .industry-card-3 {
+      animation-delay: 0.24s;
+    }
+
+    .industry-card-3 .industry-card-text {
+      animation-delay: 0.89s;
+    }
+
+    .industry-card-4 {
+      animation-delay: 0.36s;
+    }
+
+    .industry-card-4 .industry-card-text {
+      animation-delay: 1.01s;
+    }
+
+    .industry-card-5 {
+      animation-delay: 0.48s;
+    }
+
+    .industry-card-5 .industry-card-text {
+      animation-delay: 1.13s;
+    }
+
+    .industry-card-6 {
+      animation-delay: 0.60s;
+    }
+
+    .industry-card-6 .industry-card-text {
+      animation-delay: 1.25s;
+    }
+
+    .industry-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 35px rgba(7, 17, 29, 0.10);
+      border-color: rgba(242, 124, 45, 0.25) !important;
+    }
+
+    .industry-card:hover .industry-icon-wrap {
+      transform: scale(1.05);
+    }
+
+    .industry-icon-wrap {
+      transition: transform 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .industries-section {
+        padding: 60px 0 !important;
+      }
+
+      .industry-card {
+        padding: 18px 20px !important;
+        min-height: 82px !important;
+      }
+
+      .industry-icon-wrap {
+        width: 70px !important;
+        min-width: 70px !important;
+        height: 70px !important;
+      }
+    }
+  `}</style>
+
+  <div className="container">
+    {/* ============================= */}
+    {/* SECTION HEADING */}
+    {/* ============================= */}
+
+    <div className="row mb-5 justify-content-center text-center">
+      <div className="col-lg-9">
+        <div
+          className="industries-eyebrow"
+          style={{
+            display: "inline-block",
+            fontSize: "20px",
+            fontWeight: 700,
+            letterSpacing: "2px",
+            textTransform: "uppercase",
+            color: "#f27c2d",
+            marginBottom: "8px",
+          }}
+        >
+          Industries We Serve
+        </div>
+
+        <p
+          className="industries-heading"
+          style={{
+            fontSize: "clamp(1.2rem, 2vw, 1.6rem)",
+            lineHeight: 1.8,
+            color: "#07111D",
+            marginBottom: "10px",
+            fontWeight: 700,
+            maxWidth: "950px",
+            marginInline: "auto",
+          }}
+        >
+          Automation and digital manufacturing solutions tailored to
+          industry-specific needs
+        </p>
+
+        <p
+          className="industries-subtext"
+          style={{
+            maxWidth: "760px",
+            margin: "0 auto",
+            fontSize: "1rem",
+            lineHeight: 1.9,
+            color: "#39444D",
+            fontWeight: 500,
+          }}
+        >
+          Designed for production-critical environments across discrete and
+          process manufacturing.
+        </p>
+      </div>
+    </div>
+
+    {/* ============================= */}
+    {/* INDUSTRY CARDS */}
+    {/* ============================= */}
+
+    <div className="row g-3 justify-content-center">
+      {[
+        {
+          id: "automotive-ev",
+          title: "Automotive & EV",
+          animation: autoAnim,
+          bg: "linear-gradient(180deg, #ffffff 0%, #F5F1EB 100%)",
+        },
+
+        {
+          id: "auto-ancillaries",
+          title: "Auto Ancillaries",
+          animation: ancillariesAnim,
+          bg: "#ffffff",
+        },
+
+        {
+          id: "consumer-durables",
+          title: "Consumer Durables",
+          animation: consumerAnim,
+          bg: "linear-gradient(180deg, #ffffff 0%, #F8F5EE 100%)",
+        },
+
+        {
+          id: "food-beverage",
+          title: "Food & Beverage",
+          animation: foodAnim,
+          bg: "#ffffff",
+        },
+
+        {
+          id: "pharma-life-sciences",
+          title: "Pharmaceuticals & Life Sciences",
+          animation: pharmaAnim,
+          bg: "linear-gradient(180deg, #ffffff 0%, #F5F1EB 100%)",
+        },
+
+        {
+          id: "metals-mining",
+          title: "Metals & Mining",
+          animation: metalsAnim,
+          bg: "#ffffff",
+        },
+      ].map((item, index) => (
+        <div className="col-lg-4 col-md-6" key={item.id}>
+          {/* ========================= */}
+          {/* CLICKABLE CARD */}
+          {/* ========================= */}
+
+          <a
+            href={`/industries#${item.id}`}
+            className="industry-card-link"
+          >
+            <div
+              className={`industry-card ${
+                playIndustryAnimation
+                  ? `industry-card-animated industry-card-${index + 1}`
+                  : "industry-mobile-card"
+              }`}
+              style={{
+                padding: "22px 24px",
+                borderRadius: "20px",
+                border: "1px solid rgba(57,68,77,0.10)",
+                background: item.bg,
+
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+
+                gap: "16px",
+                minHeight: "88px",
+
+                transition: "all 0.3s ease",
+              }}
+            >
+              {/* ========================= */}
+              {/* CARD TITLE */}
+              {/* ========================= */}
+
+              <div
+                className="industry-card-text"
+                style={{
+                  fontSize: "1rem",
+                  fontWeight: 700,
+                  color: "#07111D",
+                  lineHeight: 1.5,
+                }}
+              >
+                {item.title}
+              </div>
+
+              {/* ========================= */}
+              {/* LOTTIE ICON */}
+              {/* ========================= */}
+
+              <div
+                className="industry-icon-wrap"
+                style={{
+                  minWidth: "80px",
+                  width: "80px",
+                  height: "80px",
+
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+
+                  flexShrink: 0,
+
+                  position: "relative",
+                  zIndex: 2,
+                }}
+              >
+                <Lottie
+                  animationData={item.animation}
+                  loop
+                  autoplay
+                  style={{
+                    width: "70px",
+                    height: "70px",
+                  }}
+                />
               </div>
             </div>
-          ))}
+          </a>
         </div>
-      </div>
-    </section>
+      ))}
+    </div>
+  </div>
+</section>
 
 {/* ================= WHY THETAVEGA ================= */}
 <section
@@ -2144,7 +2693,7 @@ useEffect(() => {
 
 {/* ================= CASE STUDIES PREVIEW ================= */}
 <section
- ref={caseStudyRef}
+  ref={caseStudyRef}
   style={{
     padding: "95px 0",
     backgroundColor: "#ffffff",
@@ -2152,6 +2701,8 @@ useEffect(() => {
 >
   <div className="container">
     <div className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-5">
+
+      {/* LEFT SIDE */}
       <div>
         <div
           style={{
@@ -2171,90 +2722,144 @@ useEffect(() => {
             fontSize: "clamp(1.8rem, 2.9vw, 2.6rem)",
             fontWeight: 800,
             color: "#07111D",
-            marginBottom: "10px",
+            marginBottom: 0,
           }}
         >
           Proven in Production Environments
         </h2>
       </div>
 
-      
+      {/* RIGHT SIDE */}
+      <Link
+        to="/case-studies"
+        className="view-all-case-studies"
+      >
+        <span>View All Case Studies</span>
+        <span className="view-all-arrow">→</span>
+      </Link>
     </div>
 
     <div className="row g-4 case-study-row">
       {[
         {
-          title: "Engine Assembly Traceability System",
-          text: "Complete SKU indexing, DC tool integration, and real-time production tracking.",
+          id: "automotive-mes",
+          title: "Automotive MES",
+          text: "End-to-End MES for Automotive Assembly & Manufacturing.",
         },
+
         {
-          title: "EV Battery Assembly Automation",
-          text: "Cell sorting, welding validation, and process traceability systems.",
+          id: "vendor-oem-traceability",
+          title: "Vendor–OEM Traceability",
+          text: "Vendor-to-OEM Traceability & Product Genealogy.",
         },
+
         {
-          title: "Machine Monitoring & OEE System",
-          text: "Real-time machine connectivity with analytics dashboards and reporting.",
+          id: "software-defined-servo-control",
+          title: "Servo Controls",
+          text: "Software-Defined Multi-Axis Servo Control Using OperateX.",
         },
       ].map((item, index) => (
-       <div
-  className={`col-lg-4 case-card-${index + 1} ${
-    playCaseAnim ? "case-animate" : ""
-  }`}
-  key={index}
->
-          <div
+        <div
+          className={`col-lg-4 case-card-${index + 1} ${
+            playCaseAnim ? "case-animate" : ""
+          }`}
+          key={item.id}
+        >
+          <Link
+            to={`/case-studies#${item.id}`}
             style={{
+              textDecoration: "none",
+              color: "inherit",
+              display: "block",
               height: "100%",
-              borderRadius: "24px",
-              padding: "28px 24px",
-              background:
-                index === 1
-                  ? "linear-gradient(180deg, #07111D 0%, #13263b 100%)"
-                  : "linear-gradient(180deg, #ffffff 0%, #E5E5DF 100%)",
-              border:
-                index === 1
-                  ? "1px solid rgba(255,255,255,0.06)"
-                  : "1px solid rgba(57,68,77,0.08)",
-              boxShadow:
-                index === 1
-                  ? "0 16px 34px rgba(7,17,29,0.16)"
-                  : "0 14px 28px rgba(7,17,29,0.05)",
             }}
           >
             <div
               style={{
-                color: "#DB9941",
-                fontSize: "14px",
-                fontWeight: 700,
-                marginBottom: "14px",
+                height: "100%",
+                borderRadius: "24px",
+                padding: "28px 24px",
+
+                background:
+                  index === 1
+                    ? "linear-gradient(180deg, #07111D 0%, #13263b 100%)"
+                    : "linear-gradient(180deg, #ffffff 0%, #E5E5DF 100%)",
+
+                border:
+                  index === 1
+                    ? "1px solid rgba(255,255,255,0.06)"
+                    : "1px solid rgba(57,68,77,0.08)",
+
+                boxShadow:
+                  index === 1
+                    ? "0 16px 34px rgba(7,17,29,0.16)"
+                    : "0 14px 28px rgba(7,17,29,0.05)",
+
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-5px)";
+
+                e.currentTarget.style.boxShadow =
+                  index === 1
+                    ? "0 20px 40px rgba(7,17,29,0.22)"
+                    : "0 18px 36px rgba(7,17,29,0.10)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(0)";
+
+                e.currentTarget.style.boxShadow =
+                  index === 1
+                    ? "0 16px 34px rgba(7,17,29,0.16)"
+                    : "0 14px 28px rgba(7,17,29,0.05)";
               }}
             >
-              🔶 Case Study {index + 1}
+              <div
+                style={{
+                  color: "#DB9941",
+                  fontSize: "14px",
+                  fontWeight: 700,
+                  marginBottom: "14px",
+                }}
+              >
+                🔶 Case Study {index + 1}
+              </div>
+
+              <h4
+                style={{
+                  fontSize: "1.18rem",
+                  fontWeight: 700,
+                  color:
+                    index === 1
+                      ? "#ffffff"
+                      : "#07111D",
+                  marginBottom: "12px",
+                  lineHeight: 1.4,
+                }}
+              >
+                {item.title}
+              </h4>
+
+              <p
+                style={{
+                  fontSize: "0.97rem",
+                  lineHeight: 1.85,
+
+                  color:
+                    index === 1
+                      ? "rgba(255,255,255,0.82)"
+                      : "#39444D",
+
+                  marginBottom: 0,
+                }}
+              >
+                {item.text}
+              </p>
             </div>
-
-            <h4
-              style={{
-                fontSize: "1.18rem",
-                fontWeight: 700,
-                color: index === 1 ? "#ffffff" : "#07111D",
-                marginBottom: "12px",
-                lineHeight: 1.4,
-              }}
-            >
-              {item.title}
-            </h4>
-
-            <p
-              style={{
-                fontSize: "0.97rem",
-                lineHeight: 1.85,
-                color: index === 1 ? "rgba(255,255,255,0.82)" : "#39444D",
-                marginBottom: 0,
-              }}
-            >
-              {item.text}
-            </p>
-          </div>
+          </Link>
         </div>
       ))}
     </div>

@@ -1,7 +1,10 @@
-import React from "react";
+
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import image1 from "../assets/images/Picture1.jpg";
 import image2 from "../assets/images/Picture2.jpg";
 import image3 from "../assets/images/Picture3.jpg";
@@ -29,8 +32,824 @@ const fadeUp = {
   transition: { duration: 0.8 },
 };
 
+
+const operateXModules = [
+  {
+    key: "planning",
+    title: "Production Planning & Scheduling",
+    description: "AI-assisted planning, target vs actual tracking, dynamic rescheduling",
+    color: "#F97316",
+    icon: "planning",
+    side: "top",
+    style: { left: "34%", top: "1%", width: "32%" },
+    delay: 1.55,
+  },
+  {
+    key: "documentation",
+    title: "Documentation & Reporting",
+    description: "Auto-generated production, quality, maintenance & compliance reports",
+    color: "#6B9A9E",
+    icon: "document",
+    side: "left",
+    style: { left: "2%", top: "13%", width: "32%" },
+    delay: 1.68,
+  },
+  {
+    key: "monitoring",
+    title: "Production Monitoring & Andon",
+    description: "Real-time dashboards, line status, losses, OEE, alarms & alerts",
+    color: "#00AFC8",
+    icon: "monitor",
+    side: "right",
+    style: { right: "2%", top: "13%", width: "32%" },
+    delay: 1.81,
+  },
+  {
+    key: "maintenance",
+    title: "JH & Preventive Maintenance",
+    description: "Machine health monitoring, CBM/TBM/PM scheduling",
+    color: "#F5A000",
+    icon: "maintenance",
+    side: "left",
+    style: { left: "2%", top: "32%", width: "32%" },
+    delay: 1.94,
+  },
+  {
+    key: "workforce",
+    title: "Workforce Management",
+    description: "Skill-based manpower allocation, attendance integration, shift readiness",
+    color: "#1280C4",
+    icon: "workforce",
+    side: "right",
+    style: { right: "2%", top: "32%", width: "32%" },
+    delay: 2.07,
+  },
+  {
+    key: "analytics",
+    title: "Analytics & Intelligence",
+    description: "OEE/OLE, SPC (Cp/Cpk), trends, AI-driven insights",
+    color: "#FF5A59",
+    icon: "analytics",
+    side: "left",
+    style: { left: "2%", top: "51%", width: "32%" },
+    delay: 2.20,
+  },
+  {
+    key: "guidance",
+    title: "Operator Guidance System",
+    description: "Digital SOPs, JH, PM, Q-points, setup guidance, pick-to-light",
+    color: "#0C5E9C",
+    icon: "guidance",
+    side: "right",
+    style: { right: "2%", top: "51%", width: "32%" },
+    delay: 2.33,
+  },
+  {
+    key: "traceability",
+    title: "Traceability System",
+    description: "VIN/serial-wise genealogy, station-wise & parameter-wise traceability",
+    color: "#B6256B",
+    icon: "traceability",
+    side: "left",
+    style: { left: "2%", top: "70%", width: "32%" },
+    delay: 2.46,
+  },
+  {
+    key: "quality",
+    title: "Quality Management System",
+    description: "CTQ monitoring, poka-yoke validation, audits & NC tracking",
+    color: "#30343B",
+    icon: "quality",
+    side: "right",
+    style: { right: "2%", top: "70%", width: "32%" },
+    delay: 2.59,
+  },
+  {
+    key: "assurance",
+    title: "Product Quality Assurance",
+    description: "Process confirmation, tool data, inspection logging, auto-PDI",
+    color: "#FF3947",
+    icon: "assurance",
+    side: "bottom",
+    style: { left: "34%", top: "86%", width: "32%" },
+    delay: 2.72,
+  },
+];
+
+const OperateXModuleIcon = ({ type }) => {
+  const common = {
+    width: "54%",
+    height: "54%",
+    viewBox: "0 0 64 64",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 3,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  };
+
+  if (type === "planning") {
+    return (
+      <svg {...common}>
+        <rect x="10" y="8" width="32" height="46" rx="3" />
+        <path d="M17 8v7M27 8v7M35 8v7M15 22h22" />
+        <path d="M16 31h7M16 39h7M16 47h7M28 31h8M28 39h8M28 47h8" />
+        <rect x="40" y="27" width="15" height="23" rx="2" />
+        <path d="M44 34h7M44 40h7M44 46h7" />
+      </svg>
+    );
+  }
+
+  if (type === "document") {
+    return (
+      <svg {...common}>
+        <path d="M15 7h25l9 9v40H15z" />
+        <path d="M40 7v11h10M21 27h20M21 34h12" />
+        <circle cx="28" cy="46" r="7" />
+        <path d="M28 39v7l5 3" />
+      </svg>
+    );
+  }
+
+  if (type === "monitor") {
+    return (
+      <svg {...common}>
+        <rect x="8" y="10" width="48" height="33" rx="4" />
+        <path d="M24 52h16M32 43v9" />
+        <path d="M16 31c5-11 13-13 20-7 6 6 10 3 13-3" />
+        <circle cx="20" cy="21" r="3" />
+      </svg>
+    );
+  }
+
+  if (type === "maintenance") {
+    return (
+      <svg {...common}>
+        <circle cx="24" cy="25" r="9" />
+        <path d="M24 9v6M24 35v6M8 25h6M34 25h6M13 14l4 4M31 32l4 4M35 14l-4 4M17 32l-4 4" />
+        <path d="M39 35l15 15M44 31l8 8M38 37l-9 15" />
+      </svg>
+    );
+  }
+
+  if (type === "workforce") {
+    return (
+      <svg {...common}>
+        <circle cx="32" cy="20" r="8" />
+        <circle cx="15" cy="26" r="6" />
+        <circle cx="49" cy="26" r="6" />
+        <path d="M19 49c1-10 6-15 13-15s12 5 13 15M6 49c1-8 4-12 9-12 3 0 5 1 7 4M58 49c-1-8-4-12-9-12-3 0-5 1-7 4" />
+      </svg>
+    );
+  }
+
+  if (type === "analytics") {
+    return (
+      <svg {...common}>
+        <path d="M9 54h46M14 49V34h8v15M28 49V23h8v26M42 49V14h8v35" />
+        <path d="M12 27l11-7 10 3 16-12" />
+        <circle cx="12" cy="27" r="2" /><circle cx="23" cy="20" r="2" /><circle cx="33" cy="23" r="2" /><circle cx="49" cy="11" r="2" />
+      </svg>
+    );
+  }
+
+  if (type === "guidance") {
+    return (
+      <svg {...common}>
+        <circle cx="23" cy="19" r="8" />
+        <path d="M12 49c1-12 5-18 11-18s10 6 11 18" />
+        <path d="M41 14l4-4 4 4 5-1 1 5 4 3-3 4 1 5-5 1-3 4-4-4-5 1-1-5-4-3 3-4-1-5z" />
+        <circle cx="49" cy="22" r="4" />
+      </svg>
+    );
+  }
+
+  if (type === "traceability") {
+    return (
+      <svg {...common}>
+        <circle cx="32" cy="14" r="6" />
+        <circle cx="15" cy="45" r="6" />
+        <circle cx="49" cy="45" r="6" />
+        <path d="M29 20L18 39M35 20l11 19M21 45h22" />
+        <path d="M10 12h9M14.5 8v8M45 11h9M49.5 7v8" />
+      </svg>
+    );
+  }
+
+  if (type === "quality") {
+    return (
+      <svg {...common}>
+        <rect x="9" y="10" width="42" height="30" rx="3" />
+        <path d="M18 52h24M30 40v12" />
+        <circle cx="42" cy="27" r="9" />
+        <path d="M42 14v5M42 35v5M29 27h5M50 27h5M33 18l4 4M47 32l4 4M51 18l-4 4M37 32l-4 4" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...common}>
+      <path d="M12 13h30v34H12z" />
+      <path d="M18 21h18M18 29h11M18 37h15" />
+      <path d="M38 39l7 7 11-14" />
+      <circle cx="47" cy="39" r="13" />
+    </svg>
+  );
+};
+
+const OperateXModulesSection = () => {
+  const stageWrapRef = useRef(null);
+  const autoPlayedRef = useRef(false);
+  const userInterruptedRef = useRef(false);
+
+  const connectorPaths = [
+    "M600 189 L600 78",
+    "M545 189 L505 145 L409 85",
+    "M655 189 L695 145 L791 85",
+    "M534 207 L470 207 L409 207",
+    "M666 207 L730 207 L791 207",
+    "M506 324 L470 324 L409 324",
+    "M694 324 L730 324 L791 324",
+    "M545 391 L500 425 L409 441",
+    "M655 391 L700 425 L791 441",
+    "M600 391 L600 485",
+  ];
+
+  const dotPoints = [
+    [600, 78],
+    [409, 85],
+    [791, 85],
+    [409, 207],
+    [791, 207],
+    [409, 324],
+    [791, 324],
+    [409, 441],
+    [791, 441],
+    [600, 485],
+  ];
+
+  useEffect(() => {
+    const wrap = stageWrapRef.current;
+    if (!wrap) return;
+
+    const isMobileView = () => window.innerWidth <= 768;
+    let observer = null;
+    let leftTimer = null;
+    let rightTimer = null;
+    let raf1 = null;
+    let raf2 = null;
+
+    const getCenterLeft = () =>
+      Math.max((wrap.scrollWidth - wrap.clientWidth) / 2, 0);
+
+    const showCenter = () => {
+      wrap.scrollLeft = getCenterLeft();
+    };
+
+    const stopAutoTour = () => {
+      userInterruptedRef.current = true;
+      if (leftTimer) clearTimeout(leftTimer);
+      if (rightTimer) clearTimeout(rightTimer);
+    };
+
+    const startAutoTour = () => {
+      if (!isMobileView() || autoPlayedRef.current) return;
+
+      autoPlayedRef.current = true;
+      userInterruptedRef.current = false;
+
+      showCenter();
+
+      leftTimer = setTimeout(() => {
+        if (userInterruptedRef.current) return;
+        wrap.scrollTo({ left: 0, behavior: "smooth" });
+      }, 1300);
+
+      rightTimer = setTimeout(() => {
+        if (userInterruptedRef.current) return;
+        wrap.scrollTo({
+          left: Math.max(wrap.scrollWidth - wrap.clientWidth, 0),
+          behavior: "smooth",
+        });
+      }, 3000);
+    };
+
+    if (isMobileView()) {
+      raf1 = requestAnimationFrame(() => {
+        raf2 = requestAnimationFrame(showCenter);
+      });
+
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) startAutoTour();
+        },
+        { threshold: 0.35 }
+      );
+
+      observer.observe(wrap);
+
+      wrap.addEventListener("touchstart", stopAutoTour, { passive: true });
+      wrap.addEventListener("mousedown", stopAutoTour);
+      wrap.addEventListener("wheel", stopAutoTour, { passive: true });
+    }
+
+    return () => {
+      if (observer) observer.disconnect();
+      if (leftTimer) clearTimeout(leftTimer);
+      if (rightTimer) clearTimeout(rightTimer);
+      if (raf1) cancelAnimationFrame(raf1);
+      if (raf2) cancelAnimationFrame(raf2);
+
+      wrap.removeEventListener("touchstart", stopAutoTour);
+      wrap.removeEventListener("mousedown", stopAutoTour);
+      wrap.removeEventListener("wheel", stopAutoTour);
+    };
+  }, []);
+
+  return (
+    <section
+     id="operatex-modules"
+    className="operatex-modules-section">
+      <style>{`
+        .operatex-modules-section {
+          position: relative;
+          width: 100%;
+          background: #ffffff;
+           padding: 32px 0 38px;
+          overflow: hidden;
+        }
+
+        .operatex-modules-stage-wrap {
+          width: min(1180px, 96%);
+          margin: 0 auto;
+          padding: 0;
+          position: relative;
+          z-index: 2;
+        }
+
+        .operatex-modules-stage {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 1200 / 580;
+          min-height: 0;
+        }
+
+        .operatex-connectors {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 2;
+        }
+
+        .operatex-center {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 19%;
+          max-width: 225px;
+          aspect-ratio: 1.12 / 1;
+          z-index: 5;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .operatex-center-hex {
+          position: absolute;
+          inset: 0;
+          clip-path: polygon(24% 0, 76% 0, 100% 50%, 76% 100%, 24% 100%, 0 50%);
+          background: #9b9b9b;
+          filter: drop-shadow(0 7px 12px rgba(0,0,0,0.06));
+        }
+
+        .operatex-center-hex::after {
+          content: "";
+          position: absolute;
+          inset: 6px;
+          clip-path: inherit;
+          background: #ffffff;
+        }
+
+        .operatex-center-content {
+          position: relative;
+          z-index: 2;
+          text-align: center;
+          color: #0d0d0d;
+          line-height: 1;
+        }
+
+        .operatex-center-brand {
+          display: block;
+          font-weight: 800;
+          font-size: clamp(17px, 1.55vw, 25px);
+          letter-spacing: -0.045em;
+          white-space: nowrap;
+          user-select: none;
+        }
+
+        .operatex-center-brand .accent {
+          color: #ee312f;
+          font-size: 1.18em;
+        }
+
+        .operatex-center-subtitle {
+          display: block;
+          margin-top: 4px;
+          font-size: clamp(10px, 0.9vw, 14px);
+          font-weight: 800;
+          color: #111;
+          user-select: none;
+        }
+
+        .operatex-module-group {
+          position: absolute;
+          z-index: 6;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1.5%;
+          min-height: 12.5%;
+          transform-origin: center;
+        }
+
+        .operatex-module-group.top,
+        .operatex-module-group.bottom {
+          gap: 1.8%;
+        }
+
+        .operatex-module-card {
+          flex: 1 1 auto;
+          min-width: 0;
+          height: 100%;
+          min-height: 74px;
+          padding: 10px 16px;
+          background: rgba(255,255,255,0.98);
+          clip-path: polygon(7% 0, 93% 0, 100% 50%, 93% 100%, 7% 100%, 0 50%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          position: relative;
+        }
+
+        .operatex-module-card::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: var(--module-color);
+          clip-path: inherit;
+          z-index: -2;
+        }
+
+        .operatex-module-card::after {
+          content: "";
+          position: absolute;
+          inset: 1px;
+          background: #ffffff;
+          clip-path: inherit;
+          z-index: -1;
+        }
+
+        .operatex-module-title {
+          color: var(--module-color);
+          font-size: clamp(10px, 0.85vw, 13px);
+          font-weight: 800;
+          line-height: 1.2;
+          margin-bottom: 4px;
+          white-space: normal;
+          overflow-wrap: break-word;
+          max-width: 96%;
+        }
+
+        .operatex-module-description {
+          color: #0e0e0e;
+          font-size: clamp(7.6px, 0.66vw, 10.5px);
+          font-weight: 500;
+          line-height: 1.25;
+          max-width: 97%;
+        }
+
+        .operatex-module-icon {
+          flex: 0 0 20.8%;
+          aspect-ratio: 1 / 1;
+          max-width: 72px;
+          min-width: 52px;
+          clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #111;
+          background: var(--module-color);
+          transition: transform 0.35s ease, filter 0.35s ease;
+        }
+
+        .operatex-module-icon::after {
+          content: "";
+          position: absolute;
+          inset: 1px;
+          clip-path: inherit;
+          background: #fff;
+          z-index: 0;
+        }
+
+        .operatex-module-icon svg {
+          position: relative;
+          z-index: 1;
+        }
+
+        .operatex-module-group:hover .operatex-module-icon {
+          transform: translateY(-3px) scale(1.03);
+          filter: drop-shadow(0 8px 10px rgba(0,0,0,0.09));
+        }
+
+        @media (max-width: 1100px) {
+          .operatex-modules-stage-wrap {
+            width: 98%;
+          }
+          .operatex-module-card {
+            min-height: 68px;
+            padding: 8px 13px;
+          }
+          .operatex-module-icon {
+            max-width: 66px;
+            min-width: 48px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .operatex-modules-section {
+            padding: 28px 0 36px;
+          }
+
+          .operatex-modules-stage-wrap {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            padding: 0;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+          }
+
+          .operatex-modules-stage-wrap::-webkit-scrollbar {
+            display: none;
+          }
+
+          .operatex-modules-stage {
+            width: 900px;
+            aspect-ratio: 1200 / 580;
+          }
+
+          .operatex-center-brand {
+            font-size: 20px;
+          }
+
+          .operatex-center-subtitle {
+            font-size: 12px;
+          }
+
+          .operatex-module-title {
+            font-size: 10.5px;
+          }
+
+          .operatex-module-description {
+            font-size: 8px;
+          }
+
+          .operatex-module-card {
+            min-height: 62px;
+            padding: 8px 12px;
+          }
+
+          .operatex-module-icon {
+            min-width: 48px;
+            max-width: 58px;
+          }
+        }
+
+        .operatex-modules-heading-wrap {
+          text-align: center;
+          max-width: 720px;
+          margin: 0 auto 28px;
+          padding: 0 16px;
+        }
+
+        .operatex-modules-heading {
+          font-size: clamp(24px, 3vw, 36px);
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          color: #0d0d0d;
+          margin: 0 0 8px;
+        }
+
+        .operatex-modules-heading .accent {
+          color: #ee312f;
+        }
+
+        .operatex-modules-subheading {
+          font-size: clamp(13px, 1.1vw, 16px);
+          font-weight: 500;
+          color: #5a5a5a;
+          margin: 0;
+          line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+          .operatex-modules-heading-wrap {
+            margin: 0 auto 20px;
+          }
+          .operatex-modules-heading {
+            font-size: 22px;
+          }
+          .operatex-modules-subheading {
+            font-size: 13px;
+          }
+        }
+          
+      `}</style>
+
+<motion.div
+        className="operatex-modules-heading-wrap"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <h2 className="operatex-modules-heading">
+          Operate<span className="accent">X</span> Modules
+        </h2>
+        <p className="operatex-modules-subheading">
+          One connected platform bringing every shop-floor function together — planning, quality, maintenance and traceability, all in real time.
+        </p>
+      </motion.div>
+
+      <div className="operatex-modules-stage-wrap" ref={stageWrapRef}>
+        <div className="operatex-modules-stage">
+          <svg
+            className="operatex-connectors"
+            viewBox="0 0 1200 580"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            {connectorPaths.map((d, index) => (
+              <motion.path
+                key={d}
+                d={d}
+                fill="none"
+                stroke="#242424"
+                strokeWidth="1.45"
+                strokeDasharray="3 5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 0.9 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: 0.65, delay: 0.72 + index * 0.07, ease: "easeInOut" }}
+              />
+            ))}
+
+            {dotPoints.map(([cx, cy], index) => (
+              <motion.circle
+                key={`${cx}-${cy}`}
+                cx={cx}
+                cy={cy}
+                r="3.4"
+                fill="#171717"
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: 0.25, delay: 1.2 + index * 0.07 }}
+              />
+            ))}
+          </svg>
+
+          <motion.div
+            className="operatex-center"
+            initial={{ opacity: 0, scale: 0.52, rotate: -8, x: "-50%", y: "-50%" }}
+            whileInView={{ opacity: 1, scale: 1, rotate: 0, x: "-50%", y: "-50%" }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.div
+              className="operatex-center-hex"
+              initial={{ filter: "drop-shadow(0 0 0 rgba(0,0,0,0))" }}
+              whileInView={{ filter: "drop-shadow(0 12px 20px rgba(0,0,0,0.07))" }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+            />
+            <div className="operatex-center-content">
+              <motion.span
+                className="operatex-center-brand"
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: 0.32 }}
+              >
+                <span className="accent">O</span>perate<span className="accent">X</span>
+              </motion.span>
+              <motion.span
+                className="operatex-center-subtitle"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.42, delay: 0.55 }}
+              >
+                Modules
+              </motion.span>
+            </div>
+          </motion.div>
+
+          {operateXModules.map((module) => {
+            const isLeft = module.side === "left";
+            const iconFirst = module.side === "right";
+
+            return (
+              <motion.div
+                key={module.key}
+                className={`operatex-module-group ${module.side}`}
+                style={{ ...module.style, "--module-color": module.color }}
+                initial={{
+                  opacity: 0,
+                  scale: 0.76,
+                  x: isLeft ? 28 : module.side === "right" ? -28 : 0,
+                  y: module.side === "top" ? 20 : module.side === "bottom" ? -20 : 0,
+                }}
+                whileInView={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.58, delay: module.delay, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {iconFirst && (
+                  <motion.div
+                    className="operatex-module-icon"
+                    animate={{ y: [0, -2.5, 0] }}
+                    transition={{ duration: 3.4, delay: module.delay + 0.5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <OperateXModuleIcon type={module.icon} />
+                  </motion.div>
+                )}
+
+                <div className="operatex-module-card">
+                  <div className="operatex-module-title">{module.title}</div>
+                  <div className="operatex-module-description">{module.description}</div>
+                </div>
+
+                {!iconFirst && (
+                  <motion.div
+                    className="operatex-module-icon"
+                    animate={{ y: [0, -2.5, 0] }}
+                    transition={{ duration: 3.4, delay: module.delay + 0.5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <OperateXModuleIcon type={module.icon} />
+                  </motion.div>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
 const ProductPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+  if (!location.hash) {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+    return;
+  }
+
+  const sectionId = location.hash.replace("#", "");
+
+  const timer = setTimeout(() => {
+    const element = document.getElementById(sectionId);
+
+    if (element) {
+      const navbarOffset = 90;
+
+      const elementPosition =
+        element.getBoundingClientRect().top +
+        window.pageYOffset;
+
+      window.scrollTo({
+        top: elementPosition - navbarOffset,
+        behavior: "smooth",
+      });
+    }
+  }, 250);
+
+  return () => clearTimeout(timer);
+}, [location.hash]);
 
   const [imageTick, setImageTick] = useState(0);
 
@@ -50,7 +869,7 @@ useEffect(() => {
   return () => window.removeEventListener("resize", resize);
 }, []);
 const products = [
-  {
+  {id: "mes",
     title: "OperateX MES (Manufacturing Execution System)",
     tagline: "Core Manufacturing Brain",
     description:
@@ -117,7 +936,7 @@ const products = [
     ],
   },
 
-  {
+  {    id: "traceability",
     title: "OperateX Traceability",
     tagline: "Digital Product Memory",
     description:
@@ -179,6 +998,7 @@ const products = [
   },
 
   {
+     id: "utility-management",
     title: "OperateX Utility (Energy & Utility Management System)",
     tagline: "Energy Intelligence Layer",
     description:
@@ -235,7 +1055,7 @@ const products = [
     ],
   },
 
-  {
+  {   id: "ai-analytics",
     title: "Vision Systems / AI Modules",
     tagline: "AI Quality Engine",
     description:
@@ -293,7 +1113,7 @@ const products = [
     ],
   },
 
-  {
+  {   id: "ot-connectivity",
     title: "Proprietary Hardware / Edge Systems",
     tagline: "Industrial Edge Backbone",
     description:
@@ -574,6 +1394,7 @@ const handleSwipe = () => {
 
       {/* ================= HERO ================= */}
 <section
+ id="platform"
   style={{
     marginTop: "60px",
     minHeight: "90vh",
@@ -755,8 +1576,63 @@ const handleSwipe = () => {
             OperateX connects machines, operators, quality, maintenance and
             planning into one real-time digital factory system.
           </p>
+          <button
+  onClick={() => navigate("/operatex-platform")}
+  style={{
+    marginTop: "18px",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    padding: "12px 22px",
+    borderRadius: "999px",
+    border: "none",
+    background:
+      "linear-gradient(135deg, #f27c2d 0%, #DB9941 100%)",
+    color: "#ffffff",
+    fontSize: "14px",
+    fontWeight: 700,
+    cursor: "pointer",
+    boxShadow:
+      "0 12px 28px rgba(242,124,45,0.25)",
+    transition: "all 0.3s ease",
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.transform =
+      "translateY(-2px)";
+
+    e.currentTarget.style.boxShadow =
+      "0 16px 34px rgba(242,124,45,0.36)";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.transform =
+      "translateY(0)";
+
+    e.currentTarget.style.boxShadow =
+      "0 12px 28px rgba(242,124,45,0.25)";
+  }}
+>
+  Explore OperateX
+
+  <span
+    style={{
+      width: "25px",
+      height: "25px",
+      borderRadius: "50%",
+      background:
+        "rgba(255,255,255,0.22)",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "15px",
+    }}
+  >
+    →
+  </span>
+</button>
         </motion.div>
       </div>
+      
 
       {/* RIGHT VIDEO */}
       <div className="col-lg-6 d-flex justify-content-center">
@@ -806,8 +1682,11 @@ const handleSwipe = () => {
 </section>
 
 
+<OperateXModulesSection />
+
 
 <section
+id="operatex-benefits"
   style={{
    padding: isMobile ? "40px 0" : "90px 0",
       marginTop: isMobile ? "20px" : "20px",
@@ -1185,6 +2064,7 @@ const handleSwipe = () => {
 
 {/* ================= PRODUCTS ================= */}
 <section
+id="modules"
   style={{
      padding: "30px 0 120px 0",
     background: "linear-gradient(180deg,#fdfcf9,#f4efe7)",
@@ -1267,41 +2147,33 @@ const handleSwipe = () => {
       </p>
     </div>
 
-    {products.map((product, index) => {
-      const currentImage = product.images[imageTick % product.images.length];
+ {products.map((product, index) => {
+  const currentImage =
+    product.images[
+      imageTick % product.images.length
+    ];
 
-      return (
-        <motion.div
-          key={index}
-          {...fadeUp}
-          style={{
-            marginBottom: "90px",
-            paddingBottom: "70px",
-            borderBottom:
-              index !== products.length - 1
-                ? "1px solid rgba(7,17,29,0.08)"
-                : "none",
-          }}
-        >
+  return (
+    <motion.div
+      id={product.id}
+      key={product.id}
+      {...fadeUp}
+      style={{
+        marginBottom: "90px",
+        paddingBottom: "70px",
+        scrollMarginTop: "100px",
+
+        borderBottom:
+          index !== products.length - 1
+            ? "1px solid rgba(7,17,29,0.08)"
+            : "none",
+      }}
+    >
           {/* TOP ROW */}
           <div className="row align-items-center g-5">
             {/* LEFT CONTENT */}
             <div className="col-lg-6">
-              <div
-               style={{
-          display: "inline-block",
-          fontSize: "18px",
-          fontWeight: 700,
-          letterSpacing: "2px",
-          textTransform: "uppercase",
-          color: "#f27c2d",
-          marginBottom: "8px",
-          textAlign: "start",
-          width: "100%",
-        }}
-              >
-                Product {String(index + 1).padStart(2, "0")}
-              </div>
+              
 
               <h3
                 style={{
@@ -1513,6 +2385,7 @@ const handleSwipe = () => {
 
       {/* ================= CTA ================= */}
      <section
+     id="request-demo"
       className="cta-section"
   style={{
     
