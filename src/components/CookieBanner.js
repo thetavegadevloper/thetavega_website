@@ -1,24 +1,32 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL;
 
 function CookieBanner() {
-  const [showBanner, setShowBanner] = useState(false);
-  const [showCustomize, setShowCustomize] = useState(false);
+  const [showBanner, setShowBanner] =
+    useState(false);
 
-  const [isMobile, setIsMobile] = useState(
-    window.innerWidth <= 768
-  );
+  const [showCustomize, setShowCustomize] =
+    useState(false);
 
-  const [preferences, setPreferences] = useState({
-    analytics: false,
-    marketing: false,
-  });
+  const [preferences, setPreferences] =
+    useState({
+      analytics: false,
+      marketing: false,
+    });
+
+  const submittedRef = useRef(false);
 
   /* =========================================================
      INITIAL LOAD
   ========================================================= */
+
   useEffect(() => {
     const savedConsent =
       localStorage.getItem("cookieConsent");
@@ -26,70 +34,92 @@ function CookieBanner() {
     if (!savedConsent) {
       setShowBanner(true);
     }
-
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener(
-        "resize",
-        handleResize
-      );
-    };
   }, []);
 
   /* =========================================================
      SAVE CONSENT
   ========================================================= */
-  const saveConsent = async (data) => {
-    try {
-      let consentType = "customized";
 
-      if (
-        data.analytics === true &&
-        data.marketing === true
-      ) {
-        consentType = "accepted";
-      } else if (
-        data.analytics === false &&
-        data.marketing === false
-      ) {
-        consentType = "rejected";
+  const saveConsent = async (data) => {
+    /*
+      Prevent accidental multiple taps/clicks
+    */
+    if (submittedRef.current) {
+      return;
+    }
+
+    submittedRef.current = true;
+
+    let consentType = "customized";
+
+    if (
+      data.analytics === true &&
+      data.marketing === true
+    ) {
+      consentType = "accepted";
+    } else if (
+      data.analytics === false &&
+      data.marketing === false
+    ) {
+      consentType = "rejected";
+    }
+
+    /* =====================================================
+       SAVE TO LOCAL STORAGE IMMEDIATELY
+    ===================================================== */
+
+    const localConsent = {
+      essential: true,
+      analytics: data.analytics,
+      marketing: data.marketing,
+      consent_type: consentType,
+      saved_at: new Date().toISOString(),
+    };
+
+    localStorage.setItem(
+      "cookieConsent",
+      JSON.stringify(localConsent)
+    );
+
+    /* =====================================================
+       CLOSE BANNER IMMEDIATELY
+    ===================================================== */
+
+    setShowBanner(false);
+    setShowCustomize(false);
+
+    /* =====================================================
+       SAVE TO BACKEND IN BACKGROUND
+    ===================================================== */
+
+    try {
+      if (!API_BASE_URL) {
+        console.warn(
+          "REACT_APP_API_BASE_URL is not configured."
+        );
+
+        return;
       }
 
-      /* -----------------------------------------
-         SAVE IN LOCAL STORAGE
-      ----------------------------------------- */
-      const localConsent = {
-        essential: true,
-        analytics: data.analytics,
-        marketing: data.marketing,
-        consent_type: consentType,
-        saved_at: new Date().toISOString(),
-      };
-
-      localStorage.setItem(
-        "cookieConsent",
-        JSON.stringify(localConsent)
-      );
-
-      /* -----------------------------------------
-         SAVE IN MONGODB THROUGH BACKEND
-      ----------------------------------------- */
       const response = await axios.post(
         `${API_BASE_URL}/api/cookie-consent`,
         {
           consent_type: consentType,
-          analytics: data.analytics,
-          marketing: data.marketing,
 
-          /* Optional information */
-          browser: getBrowser(),
-          os: getOS(),
-          device: isMobile ? "Mobile" : "Desktop",
+          analytics:
+            data.analytics,
+
+          marketing:
+            data.marketing,
+
+          browser:
+            getBrowser(),
+
+          os:
+            getOS(),
+
+          device:
+            getDevice(),
         }
       );
 
@@ -97,30 +127,26 @@ function CookieBanner() {
         "Cookie consent saved:",
         response.data
       );
-
-      setShowBanner(false);
-      setShowCustomize(false);
     } catch (error) {
       console.error(
         "Cookie consent API error:",
-        error.response?.data || error.message
+        error.response?.data ||
+          error.message
       );
 
       /*
-        IMPORTANT:
-        Consent is already saved locally.
+        Do NOT display banner again.
 
-        So even if API temporarily fails,
-        don't continuously show the banner.
+        User consent is already saved
+        successfully in localStorage.
       */
-      setShowBanner(false);
-      setShowCustomize(false);
     }
   };
 
   /* =========================================================
      ACCEPT ALL
   ========================================================= */
+
   const acceptAll = () => {
     saveConsent({
       essential: true,
@@ -132,6 +158,7 @@ function CookieBanner() {
   /* =========================================================
      REJECT ALL
   ========================================================= */
+
   const rejectAll = () => {
     saveConsent({
       essential: true,
@@ -143,38 +170,45 @@ function CookieBanner() {
   /* =========================================================
      SAVE CUSTOM
   ========================================================= */
+
   const saveCustom = () => {
     saveConsent({
       essential: true,
-      analytics: preferences.analytics,
-      marketing: preferences.marketing,
+
+      analytics:
+        preferences.analytics,
+
+      marketing:
+        preferences.marketing,
     });
   };
 
   /* =========================================================
-     BROWSER DETECTION
+     BROWSER
   ========================================================= */
-  const getBrowser = () => {
-    const userAgent = navigator.userAgent;
 
-    if (userAgent.includes("Edg")) {
+  const getBrowser = () => {
+    const ua =
+      navigator.userAgent;
+
+    if (ua.includes("Edg")) {
       return "Edge";
     }
 
     if (
-      userAgent.includes("Chrome") &&
-      !userAgent.includes("Edg")
+      ua.includes("Chrome") &&
+      !ua.includes("Edg")
     ) {
       return "Chrome";
     }
 
-    if (userAgent.includes("Firefox")) {
+    if (ua.includes("Firefox")) {
       return "Firefox";
     }
 
     if (
-      userAgent.includes("Safari") &&
-      !userAgent.includes("Chrome")
+      ua.includes("Safari") &&
+      !ua.includes("Chrome")
     ) {
       return "Safari";
     }
@@ -183,377 +217,1004 @@ function CookieBanner() {
   };
 
   /* =========================================================
-     OS DETECTION
+     OS
   ========================================================= */
-  const getOS = () => {
-    const userAgent = navigator.userAgent;
 
-    if (userAgent.includes("Windows")) {
+  const getOS = () => {
+    const ua =
+      navigator.userAgent;
+
+    if (ua.includes("Windows")) {
       return "Windows";
     }
 
-    if (userAgent.includes("Android")) {
+    if (ua.includes("Android")) {
       return "Android";
     }
 
     if (
-      userAgent.includes("iPhone") ||
-      userAgent.includes("iPad")
+      ua.includes("iPhone") ||
+      ua.includes("iPad")
     ) {
       return "iOS";
     }
 
-    if (userAgent.includes("Mac")) {
+    if (ua.includes("Mac")) {
       return "macOS";
     }
 
-    if (userAgent.includes("Linux")) {
+    if (ua.includes("Linux")) {
       return "Linux";
     }
 
     return "Other";
   };
 
+  /* =========================================================
+     DEVICE
+  ========================================================= */
+
+  const getDevice = () => {
+    const width =
+      window.innerWidth;
+
+    if (width <= 767) {
+      return "Mobile";
+    }
+
+    if (width <= 991) {
+      return "Tablet";
+    }
+
+    return "Desktop";
+  };
+
+  /* =========================================================
+     DON'T RENDER
+  ========================================================= */
+
   if (!showBanner) {
     return null;
   }
 
   return (
-    <div
-      style={{
-        ...styles.overlay,
-        width: isMobile ? "94%" : "80%",
-        bottom: isMobile ? "10px" : "20px",
-      }}
-    >
-      <div
-        style={{
-          ...styles.banner,
-
-          flexDirection:
-            isMobile || showCustomize
-              ? "column"
-              : "row",
-
-          padding: isMobile
-            ? "16px"
-            : "20px",
-        }}
-      >
-        {/* ===================================================
-            LEFT TEXT
-        =================================================== */}
+    <>
+      <div className="tv-cookie-wrapper">
         <div
-          style={{
-            ...styles.leftSection,
-
-            flexDirection: isMobile
-              ? "column"
-              : "row",
-
-            textAlign: isMobile
-              ? "center"
-              : "left",
-          }}
+          className={`tv-cookie-banner ${
+            showCustomize
+              ? "tv-cookie-custom-open"
+              : ""
+          }`}
         >
-          <div>
-            <h2
-              style={{
-                ...styles.heading,
+          {/* =============================================
+              CONTENT
+          ============================================= */}
 
-                fontSize: isMobile
-                  ? "18px"
-                  : "24px",
-              }}
-            >
-              We value your privacy
-            </h2>
+          <div className="tv-cookie-content">
+            <div className="tv-cookie-icon">
+              <span />
+            </div>
 
-            <p
-              style={{
-                ...styles.text,
+            <div className="tv-cookie-copy">
+              <h2>
+                We value your privacy
+              </h2>
 
-                fontSize: isMobile
-                  ? "13px"
-                  : "16px",
-              }}
-            >
-              We use cookies to enhance your
-              browsing experience, serve
-              personalized content, and analyze
-              our traffic.
-            </p>
+              <p>
+                We use cookies to enhance
+                your browsing experience,
+                analyze our traffic, and
+                improve our website. You can
+                accept all cookies, reject
+                optional cookies, or customize
+                your preferences.
+              </p>
+            </div>
           </div>
+
+          {/* =============================================
+              NORMAL BUTTONS
+          ============================================= */}
+
+          {!showCustomize ? (
+            <div className="tv-cookie-actions">
+              <button
+                type="button"
+                className="tv-cookie-customize"
+                onClick={() =>
+                  setShowCustomize(true)
+                }
+              >
+                Customize
+              </button>
+
+              <button
+                type="button"
+                className="tv-cookie-reject"
+                onClick={rejectAll}
+              >
+                Reject All
+              </button>
+
+              <button
+                type="button"
+                className="tv-cookie-accept"
+                onClick={acceptAll}
+              >
+                Accept All
+              </button>
+            </div>
+          ) : (
+            /* ===========================================
+               CUSTOM SETTINGS
+            =========================================== */
+
+            <div className="tv-cookie-preferences">
+              <div className="tv-cookie-options">
+                {/* ESSENTIAL */}
+
+                <label className="tv-cookie-check">
+                  <input
+                    type="checkbox"
+                    checked
+                    disabled
+                  />
+
+                  <span>
+                    Essential
+                  </span>
+                </label>
+
+                {/* ANALYTICS */}
+
+                <label className="tv-cookie-check">
+                  <input
+                    type="checkbox"
+                    checked={
+                      preferences.analytics
+                    }
+                    onChange={(e) =>
+                      setPreferences(
+                        (previous) => ({
+                          ...previous,
+
+                          analytics:
+                            e.target
+                              .checked,
+                        })
+                      )
+                    }
+                  />
+
+                  <span>
+                    Analytics
+                  </span>
+                </label>
+
+                {/* MARKETING */}
+
+                <label className="tv-cookie-check">
+                  <input
+                    type="checkbox"
+                    checked={
+                      preferences.marketing
+                    }
+                    onChange={(e) =>
+                      setPreferences(
+                        (previous) => ({
+                          ...previous,
+
+                          marketing:
+                            e.target
+                              .checked,
+                        })
+                      )
+                    }
+                  />
+
+                  <span>
+                    Marketing
+                  </span>
+                </label>
+              </div>
+
+              <div className="tv-cookie-custom-actions">
+                <button
+                  type="button"
+                  className="tv-cookie-cancel"
+                  onClick={() =>
+                    setShowCustomize(false)
+                  }
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  className="tv-cookie-accept"
+                  onClick={saveCustom}
+                >
+                  Save Preferences
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-
-        {/* ===================================================
-            NORMAL BUTTONS
-        =================================================== */}
-        {!showCustomize ? (
-          <div
-            style={{
-              ...styles.buttonGroup,
-
-              width: isMobile
-                ? "100%"
-                : "auto",
-
-              justifyContent: "center",
-              flexWrap: isMobile
-                ? "wrap"
-                : "nowrap",
-            }}
-          >
-            <button
-              type="button"
-              style={styles.linkBtn}
-              onClick={() =>
-                setShowCustomize(true)
-              }
-            >
-              Customize
-            </button>
-
-            <button
-              type="button"
-              style={{
-                ...styles.outlineBtn,
-
-                flex: isMobile
-                  ? "1 1 45%"
-                  : "unset",
-              }}
-              onClick={rejectAll}
-            >
-              Reject All
-            </button>
-
-            <button
-              type="button"
-              style={{
-                ...styles.acceptBtn,
-
-                flex: isMobile
-                  ? "1 1 45%"
-                  : "unset",
-              }}
-              onClick={acceptAll}
-            >
-              Accept All
-            </button>
-          </div>
-        ) : (
-          /* =================================================
-             CUSTOM SETTINGS
-          ================================================= */
-          <div
-            style={{
-              ...styles.customBox,
-
-              width: isMobile
-                ? "100%"
-                : "auto",
-
-              justifyContent: isMobile
-                ? "center"
-                : "flex-end",
-            }}
-          >
-            {/* ESSENTIAL */}
-            <label style={styles.checkLabel}>
-              <input
-                type="checkbox"
-                checked
-                disabled
-              />
-
-              <span>Essential</span>
-            </label>
-
-            {/* ANALYTICS */}
-            <label style={styles.checkLabel}>
-              <input
-                type="checkbox"
-                checked={
-                  preferences.analytics
-                }
-                onChange={(e) =>
-                  setPreferences({
-                    ...preferences,
-                    analytics:
-                      e.target.checked,
-                  })
-                }
-              />
-
-              <span>Analytics</span>
-            </label>
-
-            {/* MARKETING */}
-            <label style={styles.checkLabel}>
-              <input
-                type="checkbox"
-                checked={
-                  preferences.marketing
-                }
-                onChange={(e) =>
-                  setPreferences({
-                    ...preferences,
-                    marketing:
-                      e.target.checked,
-                  })
-                }
-              />
-
-              <span>Marketing</span>
-            </label>
-
-            <button
-              type="button"
-              style={styles.cancelBtn}
-              onClick={() =>
-                setShowCustomize(false)
-              }
-            >
-              Cancel
-            </button>
-
-            <button
-              type="button"
-              style={styles.acceptBtn}
-              onClick={saveCustom}
-            >
-              Save Preferences
-            </button>
-          </div>
-        )}
       </div>
-    </div>
+
+      <style>{`
+
+        /* =====================================================
+           COOKIE WRAPPER
+        ===================================================== */
+
+        .tv-cookie-wrapper {
+          position: fixed;
+
+          z-index: 99999;
+
+          left: 50%;
+          bottom: 20px;
+
+          transform:
+            translateX(-50%);
+
+          width:
+            calc(100% - 40px);
+
+          max-width:
+            1180px;
+        }
+
+
+        /* =====================================================
+           MAIN BANNER
+        ===================================================== */
+
+        .tv-cookie-banner {
+          width: 100%;
+
+          padding:
+            20px 22px;
+
+          display: flex;
+
+          align-items: center;
+
+          justify-content:
+            space-between;
+
+          gap:
+            24px;
+
+          border-radius:
+            18px;
+
+          background:
+            linear-gradient(
+              135deg,
+              #081425 0%,
+              #10263f 50%,
+              #081425 100%
+            );
+
+          border:
+            1px solid
+            rgba(
+              255,
+              255,
+              255,
+              0.08
+            );
+
+          box-shadow:
+            0 16px 45px
+            rgba(
+              0,
+              0,
+              0,
+              0.28
+            );
+
+          box-sizing:
+            border-box;
+        }
+
+
+        /* =====================================================
+           LEFT CONTENT
+        ===================================================== */
+
+        .tv-cookie-content {
+          min-width: 0;
+
+          flex: 1;
+
+          display: flex;
+
+          align-items:
+            center;
+
+          gap:
+            15px;
+        }
+
+
+        .tv-cookie-icon {
+          width:
+            38px;
+
+          height:
+            38px;
+
+          flex:
+            0 0 38px;
+
+          border-radius:
+            12px;
+
+          display:
+            flex;
+
+          align-items:
+            center;
+
+          justify-content:
+            center;
+
+          background:
+            rgba(
+              242,
+              124,
+              45,
+              0.12
+            );
+
+          border:
+            1px solid
+            rgba(
+              242,
+              124,
+              45,
+              0.18
+            );
+        }
+
+
+        .tv-cookie-icon span {
+          width:
+            11px;
+
+          height:
+            11px;
+
+          border-radius:
+            50%;
+
+          background:
+            #f27c2d;
+
+          box-shadow:
+            0 0 0 5px
+            rgba(
+              242,
+              124,
+              45,
+              0.09
+            );
+        }
+
+
+        .tv-cookie-copy {
+          min-width:
+            0;
+        }
+
+
+        .tv-cookie-copy h2 {
+          margin:
+            0 0 5px;
+
+          color:
+            #ffffff;
+
+          font-size:
+            18px;
+
+          font-weight:
+            800;
+
+          line-height:
+            1.25;
+        }
+
+
+        .tv-cookie-copy p {
+          max-width:
+            650px;
+
+          margin:
+            0;
+
+          color:
+            #c9d3df;
+
+          font-size:
+            13px;
+
+          line-height:
+            1.55;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ===================================================== */
+
+        .tv-cookie-actions {
+          flex:
+            0 0 auto;
+
+          display:
+            flex;
+
+          align-items:
+            center;
+
+          justify-content:
+            flex-end;
+
+          gap:
+            9px;
+        }
+
+
+        .tv-cookie-actions button,
+        .tv-cookie-custom-actions button {
+          min-height:
+            42px;
+
+          padding:
+            9px 15px;
+
+          border-radius:
+            9px;
+
+          font-size:
+            13px;
+
+          font-weight:
+            700;
+
+          cursor:
+            pointer;
+
+          white-space:
+            nowrap;
+
+          transition:
+            transform .2s ease,
+            box-shadow .2s ease,
+            background .2s ease;
+        }
+
+
+        .tv-cookie-actions button:hover,
+        .tv-cookie-custom-actions button:hover {
+          transform:
+            translateY(-2px);
+        }
+
+
+        /* CUSTOMIZE */
+
+        .tv-cookie-customize {
+          border:
+            none;
+
+          color:
+            #f27c2d;
+
+          background:
+            transparent;
+        }
+
+
+        /* REJECT */
+
+        .tv-cookie-reject {
+          color:
+            #07111D;
+
+          background:
+            #ffffff;
+
+          border:
+            1px solid
+            rgba(
+              255,
+              255,
+              255,
+              .8
+            );
+        }
+
+
+        /* ACCEPT */
+
+        .tv-cookie-accept {
+          color:
+            #ffffff;
+
+          background:
+            linear-gradient(
+              135deg,
+              #f27c2d,
+              #DB9941
+            );
+
+          border:
+            none;
+
+          box-shadow:
+            0 8px 20px
+            rgba(
+              242,
+              124,
+              45,
+              .22
+            );
+        }
+
+
+        /* =====================================================
+           CUSTOMIZATION
+        ===================================================== */
+
+        .tv-cookie-preferences {
+          flex:
+            0 0 auto;
+
+          display:
+            flex;
+
+          align-items:
+            center;
+
+          gap:
+            20px;
+        }
+
+
+        .tv-cookie-options {
+          display:
+            flex;
+
+          align-items:
+            center;
+
+          flex-wrap:
+            wrap;
+
+          gap:
+            14px;
+        }
+
+
+        .tv-cookie-check {
+          display:
+            inline-flex;
+
+          align-items:
+            center;
+
+          gap:
+            7px;
+
+          color:
+            #ffffff;
+
+          font-size:
+            12px;
+
+          font-weight:
+            600;
+
+          white-space:
+            nowrap;
+
+          cursor:
+            pointer;
+        }
+
+
+        .tv-cookie-check input {
+          width:
+            16px;
+
+          height:
+            16px;
+
+          accent-color:
+            #f27c2d;
+
+          cursor:
+            pointer;
+        }
+
+
+        .tv-cookie-check input:disabled {
+          cursor:
+            default;
+        }
+
+
+        .tv-cookie-custom-actions {
+          display:
+            flex;
+
+          align-items:
+            center;
+
+          gap:
+            8px;
+        }
+
+
+        .tv-cookie-cancel {
+          color:
+            #ffffff;
+
+          background:
+            transparent;
+
+          border:
+            1px solid
+            rgba(
+              255,
+              255,
+              255,
+              .32
+            );
+        }
+
+
+        /* =====================================================
+           TABLET
+           <= 991px
+        ===================================================== */
+
+        @media (max-width: 991px) {
+
+          .tv-cookie-wrapper {
+            width:
+              calc(100% - 32px);
+
+            bottom:
+              16px;
+          }
+
+
+          .tv-cookie-banner {
+            padding:
+              18px;
+
+            flex-direction:
+              column;
+
+            align-items:
+              stretch;
+
+            gap:
+              16px;
+          }
+
+
+          .tv-cookie-content {
+            width:
+              100%;
+          }
+
+
+          .tv-cookie-copy p {
+            max-width:
+              100%;
+          }
+
+
+          .tv-cookie-actions {
+            width:
+              100%;
+
+            justify-content:
+              flex-end;
+          }
+
+
+          .tv-cookie-preferences {
+            width:
+              100%;
+
+            justify-content:
+              space-between;
+
+            flex-wrap:
+              wrap;
+
+            gap:
+              14px;
+          }
+
+
+          .tv-cookie-options {
+            flex:
+              1 1 auto;
+          }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+           <= 767px
+        ===================================================== */
+
+        @media (max-width: 767px) {
+
+          .tv-cookie-wrapper {
+            width:
+              calc(100% - 20px);
+
+            bottom:
+              10px;
+          }
+
+
+          .tv-cookie-banner {
+            padding:
+              15px;
+
+            border-radius:
+              15px;
+
+            gap:
+              14px;
+          }
+
+
+          .tv-cookie-content {
+            align-items:
+              flex-start;
+
+            gap:
+              11px;
+          }
+
+
+          .tv-cookie-icon {
+            width:
+              32px;
+
+            height:
+              32px;
+
+            flex:
+              0 0 32px;
+
+            border-radius:
+              9px;
+          }
+
+
+          .tv-cookie-icon span {
+            width:
+              9px;
+
+            height:
+              9px;
+          }
+
+
+          .tv-cookie-copy h2 {
+            font-size:
+              15px;
+
+            margin-bottom:
+              5px;
+          }
+
+
+          .tv-cookie-copy p {
+            font-size:
+              11.5px;
+
+            line-height:
+              1.5;
+          }
+
+
+          /* BUTTONS */
+
+          .tv-cookie-actions {
+            display:
+              grid;
+
+            grid-template-columns:
+              1fr 1fr;
+
+            gap:
+              8px;
+
+            width:
+              100%;
+          }
+
+
+          .tv-cookie-customize {
+            grid-column:
+              1 / -1;
+
+            min-height:
+              32px !important;
+
+            padding:
+              4px 8px !important;
+
+            text-align:
+              left;
+          }
+
+
+          .tv-cookie-reject,
+          .tv-cookie-accept {
+            width:
+              100%;
+          }
+
+
+          .tv-cookie-actions button,
+          .tv-cookie-custom-actions button {
+            min-height:
+              40px;
+
+            padding:
+              9px 10px;
+
+            font-size:
+              12px;
+          }
+
+
+          /* CUSTOM OPTIONS */
+
+          .tv-cookie-preferences {
+            display:
+              block;
+
+            width:
+              100%;
+          }
+
+
+          .tv-cookie-options {
+            width:
+              100%;
+
+            display:
+              grid;
+
+            grid-template-columns:
+              repeat(
+                3,
+                minmax(0, 1fr)
+              );
+
+            gap:
+              7px;
+
+            margin-bottom:
+              12px;
+          }
+
+
+          .tv-cookie-check {
+            font-size:
+              10px;
+
+            gap:
+              4px;
+
+            justify-content:
+              flex-start;
+          }
+
+
+          .tv-cookie-check input {
+            width:
+              14px;
+
+            height:
+              14px;
+          }
+
+
+          .tv-cookie-custom-actions {
+            width:
+              100%;
+
+            display:
+              grid;
+
+            grid-template-columns:
+              1fr 1fr;
+
+            gap:
+              8px;
+          }
+
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+           <= 390px
+        ===================================================== */
+
+        @media (max-width: 390px) {
+
+          .tv-cookie-wrapper {
+            width:
+              calc(100% - 14px);
+
+            bottom:
+              7px;
+          }
+
+
+          .tv-cookie-banner {
+            padding:
+              13px;
+
+            border-radius:
+              13px;
+          }
+
+
+          .tv-cookie-icon {
+            display:
+              none;
+          }
+
+
+          .tv-cookie-copy h2 {
+            font-size:
+              14px;
+          }
+
+
+          .tv-cookie-copy p {
+            font-size:
+              11px;
+          }
+
+
+          .tv-cookie-options {
+            grid-template-columns:
+              1fr 1fr;
+          }
+
+
+          .tv-cookie-check:first-child {
+            grid-column:
+              1 / -1;
+          }
+
+        }
+
+      `}</style>
+    </>
   );
 }
-
-/* =========================================================
-   STYLES
-========================================================= */
-
-const styles = {
-  overlay: {
-    position: "fixed",
-    left: "50%",
-    transform: "translateX(-50%)",
-    zIndex: 9999,
-  },
-
-  banner: {
-    background:
-      "linear-gradient(135deg, #081425 0%, #10263f 50%, #081425 100%)",
-
-    borderRadius: "20px",
-
-    boxShadow:
-      "0 12px 40px rgba(0,0,0,0.30)",
-
-    display: "flex",
-
-    justifyContent: "space-between",
-
-    alignItems: "center",
-
-    gap: "20px",
-
-    border:
-      "1px solid rgba(255,255,255,0.08)",
-  },
-
-  leftSection: {
-    display: "flex",
-    gap: "20px",
-    alignItems: "center",
-    flex: 1,
-  },
-
-  heading: {
-    margin: 0,
-    fontWeight: 700,
-    color: "#ffffff",
-  },
-
-  text: {
-    marginTop: "6px",
-    marginBottom: 0,
-    color: "#c9d3df",
-    maxWidth: "600px",
-    lineHeight: 1.6,
-  },
-
-  buttonGroup: {
-    display: "flex",
-    gap: "10px",
-    alignItems: "center",
-  },
-
-  linkBtn: {
-    border: "none",
-    background: "transparent",
-    color: "#ff7a00",
-    cursor: "pointer",
-    fontSize: "14px",
-    fontWeight: 600,
-    padding: "8px 10px",
-  },
-
-  outlineBtn: {
-    padding: "10px 16px",
-    background: "#ffffff",
-    color: "#07111D",
-    border: "1px solid #cccccc",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontSize: "14px",
-    fontWeight: 600,
-    whiteSpace: "nowrap",
-  },
-
-  acceptBtn: {
-    padding: "10px 16px",
-    background: "#ff7a00",
-    color: "#ffffff",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontSize: "14px",
-    fontWeight: 600,
-    whiteSpace: "nowrap",
-  },
-
-  cancelBtn: {
-    padding: "10px 16px",
-    background: "transparent",
-    color: "#ffffff",
-    border:
-      "1px solid rgba(255,255,255,0.35)",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontSize: "14px",
-    fontWeight: 600,
-  },
-
-  customBox: {
-    display: "flex",
-    gap: "16px",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-
-  checkLabel: {
-    display: "flex",
-    alignItems: "center",
-    gap: "7px",
-    color: "#ffffff",
-    fontSize: "14px",
-    cursor: "pointer",
-    whiteSpace: "nowrap",
-  },
-};
 
 export default CookieBanner;
