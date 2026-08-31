@@ -1268,14 +1268,27 @@ const OperateXPlatform = () => {
         .opx-intro-sub { position: relative; z-index: 2; margin-top: 20px; color: rgba(255,255,255,.58); font-size: clamp(.58rem, .95vw, .82rem); font-weight: 700; text-align: center; }
 
         .opx-hero {
-          position: relative;
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          padding: 132px 0 86px;
-          overflow: hidden;
-          background: linear-gradient(135deg, #04101c 0%, #071a2c 48%, #0a2844 100%);
-        }
+  position: relative;
+
+  min-height: calc(100vh - 74px);
+
+  display: flex;
+  align-items: center;
+
+  padding: 55px 0 45px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #04101c 0%,
+      #071a2c 48%,
+      #0a2844 100%
+    );
+}
 
         .opx-hero-grid, .opx-final-grid {
           position: absolute;
@@ -2105,6 +2118,307 @@ const OperateXPlatform = () => {
   .opx-application span {
     font-size: 12px !important;
   }
+}
+
+/* ============================================================
+   TYPOGRAPHY - MATCH OTHER THETAVEGA PAGES
+============================================================ */
+
+/* HERO SMALL LABEL */
+.opx-eyebrow {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.8px !important;
+}
+
+
+/* HERO MAIN TITLE */
+.opx-hero h1 {
+  font-size: clamp(1.9rem, 3.2vw, 3.4rem) !important;
+  font-weight: 650 !important;
+  line-height: 1.16 !important;
+  letter-spacing: 1px !important;
+}
+
+
+/* HERO DESCRIPTION */
+.opx-hero-lead {
+  font-size: 1rem !important;
+  line-height: 1.78 !important;
+  font-weight: 400 !important;
+}
+
+
+/* ============================================================
+   SECTION LABELS
+============================================================ */
+
+.opx-section-head > span,
+.opx-config-copy > span,
+.opx-open-copy > span,
+.opx-ai-copy > span,
+.opx-backbone-copy > span,
+.opx-change-copy > span {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.8px !important;
+}
+
+
+/* ============================================================
+   SECTION MAIN HEADINGS
+============================================================ */
+
+.opx-section-head h2,
+.opx-config-copy h2,
+.opx-open-copy h2,
+.opx-ai-copy h2,
+.opx-backbone-copy h2,
+.opx-change-copy h2 {
+  font-size: clamp(1.2rem, 2vw, 1.65rem) !important;
+  font-weight: 650 !important;
+  line-height: 1.28 !important;
+  letter-spacing: 0.2px !important;
+}
+
+
+/* ============================================================
+   SECTION DESCRIPTIONS
+============================================================ */
+
+.opx-section-head p,
+.opx-config-copy > p,
+.opx-open-copy > p,
+.opx-ai-copy > p,
+.opx-backbone-copy > p,
+.opx-change-copy > p {
+  font-size: 0.96rem !important;
+  line-height: 1.72 !important;
+  font-weight: 400 !important;
+}
+
+
+/* ============================================================
+   CAPABILITY CARDS
+============================================================ */
+
+.opx-capability-card h3 {
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+}
+
+.opx-capability-card p {
+  font-size: 0.9rem !important;
+  line-height: 1.65 !important;
+}
+
+
+/* ============================================================
+   MODULE CARDS
+============================================================ */
+
+.opx-module-card h3 {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+}
+
+.opx-module-card p {
+  font-size: 0.9rem !important;
+  line-height: 1.65 !important;
+}
+
+.opx-module-item strong {
+  font-size: 0.86rem !important;
+  font-weight: 600 !important;
+}
+
+
+/* ============================================================
+   CONFIGURATION
+============================================================ */
+
+.opx-config-row strong {
+  font-size: 0.84rem !important;
+}
+
+.opx-config-highlight strong {
+  font-size: 0.95rem !important;
+}
+
+.opx-config-highlight p {
+  font-size: 0.86rem !important;
+}
+
+
+/* ============================================================
+   PROTOCOL / CONNECTIVITY
+============================================================ */
+
+.opx-protocol-item strong {
+  font-size: 0.82rem !important;
+}
+
+.opx-marquee span {
+  font-size: 0.82rem !important;
+}
+
+
+/* ============================================================
+   AI CARDS
+============================================================ */
+
+.opx-ai-card p {
+  font-size: 0.88rem !important;
+  line-height: 1.5 !important;
+}
+
+.opx-ai-core h3 {
+  font-size: 1.1rem !important;
+}
+
+.opx-ai-core p {
+  font-size: 0.86rem !important;
+}
+
+
+/* ============================================================
+   PRINCIPLE CARDS
+============================================================ */
+
+.opx-principle-card h3 {
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+}
+
+.opx-principle-card p {
+  font-size: 0.88rem !important;
+  line-height: 1.65 !important;
+}
+
+
+/* ============================================================
+   BACKBONE
+============================================================ */
+
+.opx-stack-layer h3 {
+  font-size: 0.98rem !important;
+}
+
+.opx-stack-layer p {
+  font-size: 0.82rem !important;
+  line-height: 1.55 !important;
+}
+
+
+/* ============================================================
+   FINAL CTA
+============================================================ */
+
+.opx-final h2 {
+  font-size: clamp(1.6rem, 2.4vw, 2.4rem) !important;
+  font-weight: 650 !important;
+  line-height: 1.2 !important;
+}
+
+.opx-final p {
+  font-size: 0.95rem !important;
+  line-height: 1.7 !important;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 991px) {
+
+  .opx-hero h1 {
+    font-size: clamp(1.9rem, 5vw, 2.7rem) !important;
+  }
+
+  .opx-hero-lead {
+    font-size: 0.96rem !important;
+  }
+
+  .opx-section-head h2,
+  .opx-config-copy h2,
+  .opx-open-copy h2,
+  .opx-ai-copy h2,
+  .opx-backbone-copy h2,
+  .opx-change-copy h2 {
+    font-size: clamp(1.3rem, 3vw, 1.7rem) !important;
+  }
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 767px) {
+
+  .opx-eyebrow,
+  .opx-section-head > span,
+  .opx-config-copy > span,
+  .opx-open-copy > span,
+  .opx-ai-copy > span,
+  .opx-backbone-copy > span,
+  .opx-change-copy > span {
+    font-size: 11px !important;
+    letter-spacing: 1.5px !important;
+  }
+
+
+  .opx-hero h1 {
+    font-size: clamp(
+      1.85rem,
+      8vw,
+      2.35rem
+    ) !important;
+
+    line-height: 1.18 !important;
+  }
+
+
+  .opx-hero-lead {
+    font-size: 0.92rem !important;
+    line-height: 1.65 !important;
+  }
+
+
+  .opx-section-head h2,
+  .opx-config-copy h2,
+  .opx-open-copy h2,
+  .opx-ai-copy h2,
+  .opx-backbone-copy h2,
+  .opx-change-copy h2 {
+    font-size: clamp(
+      1.3rem,
+      5.8vw,
+      1.62rem
+    ) !important;
+
+    line-height: 1.28 !important;
+  }
+
+
+  .opx-section-head p,
+  .opx-config-copy > p,
+  .opx-open-copy > p,
+  .opx-ai-copy > p,
+  .opx-backbone-copy > p,
+  .opx-change-copy > p {
+    font-size: 0.91rem !important;
+    line-height: 1.6 !important;
+  }
+
+
+  .opx-capability-card p,
+  .opx-module-card p,
+  .opx-principle-card p {
+    font-size: 0.88rem !important;
+  }
+
 }
       `}</style>
     </main>

@@ -1396,7 +1396,7 @@ const handleSwipe = () => {
 <section
  id="platform"
   style={{
-    marginTop: "60px",
+    marginTop: "0px",
     minHeight: "90vh",
     display: "flex",
     alignItems: "center",

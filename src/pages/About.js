@@ -944,7 +944,7 @@ const certificationItems = [
       <section
   style={{
     position: "relative",
-    padding: "192px 0 58px",
+     padding: "80px 0 58px",
     backgroundImage: `url(${aboutHeroBg})`,
     backgroundSize: "cover",
     backgroundPosition: "center center",

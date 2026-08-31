@@ -2080,19 +2080,22 @@ const Solutions = () => {
       ======================================================== */}
 
       <section
-        className="hero-section"
-        style={{
-          minHeight: "90vh",
-          padding: "120px 0 90px",
-          position: "relative",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
+  className="hero-section"
+  style={{
+    minHeight: "calc(100vh - 74px)",
+    padding: "55px 0 45px",
+    boxSizing: "border-box",
 
-          background:
-            "radial-gradient(circle at 78% 22%, rgba(242,124,45,0.22), transparent 34%), linear-gradient(135deg, #06101d 0%, #081a2d 42%, #12385c 100%)",
-        }}
-      >
+    position: "relative",
+    overflow: "hidden",
+
+    display: "flex",
+    alignItems: "center",
+
+    background:
+      "radial-gradient(circle at 78% 22%, rgba(242,124,45,0.22), transparent 34%), linear-gradient(135deg, #06101d 0%, #081a2d 42%, #12385c 100%)",
+  }}
+>
         {/* ORANGE PREMIUM GLOW */}
 
         <div

@@ -786,38 +786,38 @@ useEffect(() => {
         ==================================================== */
 
         .industries-hero {
-          min-height: 90vh;
+  min-height: calc(100vh - 74px);
 
-          padding:
-            120px 0 90px;
+  padding:
+    55px 0 45px;
 
-          position: relative;
+  position: relative;
+  overflow: hidden;
 
-          overflow: hidden;
+  display: flex;
+  align-items: center;
 
-          display: flex;
+  box-sizing: border-box;
 
-          align-items: center;
-
-          background:
-            radial-gradient(
-              circle at 75% 20%,
-              rgba(242,124,45,0.18) 0%,
-              transparent 30%
-            ),
-            radial-gradient(
-              circle at 25% 80%,
-              rgba(0,91,187,0.15) 0%,
-              transparent 35%
-            ),
-            linear-gradient(
-              115deg,
-              #020814 0%,
-              #031326 35%,
-              #071D38 70%,
-              #0A2547 100%
-            );
-        }
+  background:
+    radial-gradient(
+      circle at 75% 20%,
+      rgba(242,124,45,0.18) 0%,
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 25% 80%,
+      rgba(0,91,187,0.15) 0%,
+      transparent 35%
+    ),
+    linear-gradient(
+      115deg,
+      #020814 0%,
+      #031326 35%,
+      #071D38 70%,
+      #0A2547 100%
+    );
+}
 
         .industries-hero-inner {
           width: 100%;
